@@ -19,6 +19,10 @@ client.on("ready", () => {
 	client.user.setActivity(`Prefix: "${prefix}" | ${prefix}yardim | ${client.user.username} Online!`)
 });
 
+client.on('error', error => {
+	console.error("HATA:", error);
+});
+
 client.on("disconnect", () => {
 	console.log(`${client.user.username} kapandi!`)
 });
