@@ -7,8 +7,12 @@ const {
 const {
 	RichEmbed
 } = require("discord.js");
+const ytdl = require("ytdl-core");
+const search = require("yt-search");
 const client = new Discord.Client();
 const prefix = "-";
+
+var servers = {};
 
 client.on("ready", () => {
 	console.log(`${client.user.username} basarili bir sekilde baglandi!`)
@@ -107,9 +111,28 @@ client.on("message", message => {
 			.addField(`${square}**Çet**`, black + prefix + "cet` == YAAAA ÇEEETT BU NE ABEE", true)
 			.addField(`${square}**Ping**`, black + prefix + "ping` == Botun pingini gösterir.")
 			.addField(`${square}**Emoji**`, black + prefix + `emoji${black} == Tema seçilmezse random emoji oluşturur. \n ${black + prefix}emoji tema${black} == Temaları listeler. \n ${black}Örnek:${black} **${prefix}emoji =** Random emoji: ᕦ( ͡° ͜ʖ ͡°)ᕤ \n ${black}Örnek:${black} **${prefix}emoji pedobear =** Random pedobear emoji: ᶘ ͡°ᴥ ͡°ᶅ `)
+			.addField(`${square}**Müzik**`, `\`${prefix}music\` == Müzik komutlarını gösterir.`)
 			.addField("\u200B", "**Evet şuan sadece bu kadar.**")
 			.setTimestamp()
 			.setFooter("Aykut Saki yapmış", client.user.avatarURL);
+		message.channel.send(embed);
+	}
+
+	if (message.content === `${prefix}music`) {
+		const ownerid = '231457748422885378';
+		const owner = client.users.get(ownerid);
+		const square = ":small_blue_diamond:";
+		const embed = new Discord.RichEmbed()
+			.setAuthor(client.user.username, client.user.avatarURL, "https://discord.js.org")
+			.setDescription(`Bir gün herkes ${client.user.username} kullanacak!`)
+			.setThumbnail(owner.avatarURL)
+			.setTitle("Komutlar")
+			.addBlankField()
+			.addField(`${square}**Oynat**`, `\`${prefix}oynat\` == Link varsa linki oynatır yoksa YouYube'da aratır.`)
+			.addField(`${square}**Atla**`, `\`${prefix}atla\` == Sıradaki şarkıya geçer.`)
+			.addField(`${square}**durdur**`, `\`${prefix}durdur\` == Listeyi temizler ve odadan ayrılır.`)
+			.addField(`${square}**baglan**`, `\`${prefix}baglan\` == Odaya bağlanır.`)
+			.addField(`${square}**ayril**`, `\`${prefix}ayril\` == Listeyi temizler ve odadan ayrılır`);
 		message.channel.send(embed);
 	}
 
@@ -181,6 +204,184 @@ client.on("message", message => {
 				}, 2000));
 
 			}
+		}
+
+	}
+
+	if (message.content.startsWith(`${prefix}oynat`)) {
+
+		let args = message.content.slice(prefix.lenght).split(" ");
+		var server = servers[message.guild.id];
+
+		function play(connection, message) {
+
+			server.dispatcher = connection.playStream(ytdl(server.queue[0], {
+				filter: "audioonly"
+			}));
+
+			server.queue.shift();
+
+			server.dispatcher.on("end", function () {
+				if (server.queue[0]) {
+					play(connection, message);
+				} else {
+					connection.disconnect();
+				}
+			});
+		}
+
+		if (!args[1]) {
+			const embed = new Discord.RichEmbed()
+				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}oynat link veya anahtar sözcük`)
+				.setColor("#ff0000");
+			message.channel.send(embed);
+			return;
+		}
+
+		if (!servers[message.guild.id]) servers[message.guild.id] = {
+			queue: []
+		}
+		var server = servers[message.guild.id];
+
+		let validate = ytdl.validateURL(args[1]);
+		if (message.member.voiceChannel) {
+			if (!validate) {
+				search(args.join(' '), function (err, res) {
+					if (err) return message.channel.send("**Hata oluştu!**");
+
+					let videos = res.videos.slice(0, 10);
+
+					let resp = '';
+					for (var i in videos) {
+						resp += `**[${parseInt(i) + 1}]: ** \`${videos[i].title}\`\n`;
+					}
+
+					resp += `\n**\`1 ile ${videos.length} arasında sayı seçiniz!\`**`;
+
+					message.channel.send(resp);
+
+					const filter = m => !isNaN(m.content) && m.content < videos.length + 1 && m.content > 0;
+
+					const collector = message.channel.createMessageCollector(filter);
+					collector.videos = videos;
+					collector.once('collect', function (m) {
+						if (!message.guild.voiceConnection) {
+							message.member.voiceChannel.join().then(function (connection) {
+								var videourl = videos[parseInt(m.content) - 1].url;
+								server.queue.push(videourl);
+								play(connection, videourl);
+							});
+							return;
+						} else {
+							var videourl = videos[parseInt(m.content) - 1].url;
+							server.queue.push(videourl);
+							return;
+						}
+					});
+				});
+			} else {
+				if (!message.guild.voiceConnection) {
+					if (message.member.voiceChannel) {
+						message.member.voiceChannel.join().then(function (connection) {
+							play(connection, message);
+						});
+					}
+				}
+			}
+		}
+
+
+		if (!message.member.voiceChannel) {
+			const embed = new Discord.RichEmbed()
+				.setDescription(":x: **Yanlış kullanım** :x: \n \n :loud_sound: Bir ses kanalında olmalısın!")
+				.setColor("#ff0000");
+			message.channel.send(embed);
+		}
+
+
+	}
+
+	if (message.content === `${prefix}atla`) {
+		var server = servers[message.guild.id];
+		try {
+			if (server.dispatcher) {
+				server.dispatcher.end();
+				message.channel.send(`:fast_forward: **Müzik atlandı!**`);
+				return;
+			}
+		} catch (ex) {
+			message.channel.send("**Sırada müzik yok!**");
+		}
+	}
+
+	if (message.content === `${prefix}durdur`) {
+		var server = servers[message.guild.id];
+		if (message.guild.voiceConnection) {
+			try {
+				for (var i = server.queue.length - 1; i >= 0; i--) {
+					server.queue.splice(i, 1);
+				}
+				server.dispatcher.end();
+				message.channel.send("**Müzik durduruldu!**");
+				if (message.guild.voiceConnection) {
+					message.guild.voiceConnection.disconnect();
+				}
+			} catch {
+				message.channel.send("**Durduralacak müzik yok!**");
+				if (message.guild.voiceConnection) {
+					message.guild.voiceConnection.disconnect();
+				}
+				return;
+			}
+		} else if (!message.member.voiceChannel) {
+			message.channel.send("**Bu komutu kullanabilmek için ses kanalında olmalısın!**");
+		}
+
+
+	}
+
+	if (message.content === `${prefix}baglan`) {
+		if (message.member.voiceChannel) {
+			if (!message.guild.connection) {
+				message.member.voiceChannel.join();
+				return;
+			} else {
+				message.channel.send("**Zaten odadayım!**");
+				return;
+			}
+		} else {
+			message.channel.send("**Bu komutu kullanabilmek için ses kanalında olman lazım!**");
+			return;
+		}
+
+	}
+
+	if (message.content === `${prefix}ayril`) {
+		var server = servers[message.guild.id];
+		if (message.member.voiceChannel) {
+			if (message.guild.voiceConnection) {
+				try {
+					for (var i = server.queue.length - 1; i >= 0; i--) {
+						server.queue.splice(i, 1);
+					}
+					server.dispatcher.end();
+					message.channel.send("**Liste temizlendi!**");
+					if (message.guild.voiceConnection) {
+						message.guild.voiceConnection.disconnect();
+					}
+				} catch {
+					message.channel.send("**Liste temizlenemedi!**");
+					if (message.guild.voiceConnection) {
+						message.guild.voiceConnection.disconnect();
+					}
+				}
+				message.channel.send("**Odadan Çıkıldı!**")
+				return;
+			} else {
+				message.channel.send("**Zaten odada değilim!**");
+			}
+		} else {
+			message.channel.send("**Bu komutu kullanabilmek için ses kanalında olman lazım!**");
 		}
 
 	}
