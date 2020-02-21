@@ -307,15 +307,20 @@ client.on("message", message => {
 
 	if (message.content === `${prefix}atla`) {
 		var server = servers[message.guild.id];
-		try {
-			if (server.dispatcher) {
-				server.dispatcher.end();
-				message.channel.send(`:fast_forward: **Müzik atlandı!**`);
-				return;
+		if (message.guild.voiceConnection) {
+			try {
+				if (server.dispatcher) {
+					server.dispatcher.end();
+					message.channel.send(`:fast_forward: **Müzik atlandı!**`);
+					return;
+				}
+			} catch (ex) {
+				message.channel.send("**Sırada müzik yok!**");
 			}
-		} catch (ex) {
-			message.channel.send("**Sırada müzik yok!**");
+		} else if (!message.member.voiceChannel) {
+			message.channel.send("**Bu komutu kullanabilmek için ses kanalında olmalısın!**");
 		}
+
 	}
 
 	if (message.content === `${prefix}durdur`) {
