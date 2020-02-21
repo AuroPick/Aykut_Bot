@@ -136,7 +136,9 @@ client.on("message", message => {
 			.addField(`${square}**Atla**`, `\`${prefix}atla\` == Sıradaki şarkıya geçer.`)
 			.addField(`${square}**Durdur**`, `\`${prefix}durdur\` == Listeyi temizler ve odadan ayrılır.`)
 			.addField(`${square}**Bağlan**`, `\`${prefix}baglan\` == Odaya bağlanır.`)
-			.addField(`${square}**Ayrıl**`, `\`${prefix}ayril\` == Listeyi temizler ve odadan ayrılır`);
+			.addField(`${square}**Ayrıl**`, `\`${prefix}ayril\` == Listeyi temizler ve odadan ayrılır`)
+			.setTimestamp()
+			.setFooter("Aykut Saki yapmış", client.user.avatarURL);
 		message.channel.send(embed);
 	}
 
