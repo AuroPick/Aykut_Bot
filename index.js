@@ -115,14 +115,14 @@ client.on("message", message => {
 			.addField(`${square}**Çet**`, black + prefix + "cet` == YAAAA ÇEEETT BU NE ABEE", true)
 			.addField(`${square}**Ping**`, black + prefix + "ping` == Botun pingini gösterir.")
 			.addField(`${square}**Emoji**`, black + prefix + `emoji${black} == Tema seçilmezse random emoji oluşturur. \n ${black + prefix}emoji tema${black} == Temaları listeler. \n ${black}Örnek:${black} **${prefix}emoji =** Random emoji: ᕦ( ͡° ͜ʖ ͡°)ᕤ \n ${black}Örnek:${black} **${prefix}emoji pedobear =** Random pedobear emoji: ᶘ ͡°ᴥ ͡°ᶅ `)
-			.addField(`${square}**Müzik**`, `\`${prefix}music\` == Müzik komutlarını gösterir.`)
+			.addField(`${square}**Müzik**`, `\`${prefix}muzik\` == Müzik komutlarını gösterir.`)
 			.addField("\u200B", "**Evet şuan sadece bu kadar.**")
 			.setTimestamp()
 			.setFooter("Aykut Saki yapmış", client.user.avatarURL);
 		message.channel.send(embed);
 	}
 
-	if (message.content === `${prefix}music`) {
+	if (message.content === `${prefix}muzik`) {
 		const ownerid = '231457748422885378';
 		const owner = client.users.get(ownerid);
 		const square = ":small_blue_diamond:";
@@ -134,9 +134,9 @@ client.on("message", message => {
 			.addBlankField()
 			.addField(`${square}**Oynat**`, `\`${prefix}oynat\` == Link varsa linki oynatır yoksa YouYube'da aratır.`)
 			.addField(`${square}**Atla**`, `\`${prefix}atla\` == Sıradaki şarkıya geçer.`)
-			.addField(`${square}**durdur**`, `\`${prefix}durdur\` == Listeyi temizler ve odadan ayrılır.`)
-			.addField(`${square}**baglan**`, `\`${prefix}baglan\` == Odaya bağlanır.`)
-			.addField(`${square}**ayril**`, `\`${prefix}ayril\` == Listeyi temizler ve odadan ayrılır`);
+			.addField(`${square}**Durdur**`, `\`${prefix}durdur\` == Listeyi temizler ve odadan ayrılır.`)
+			.addField(`${square}**Bağlan**`, `\`${prefix}baglan\` == Odaya bağlanır.`)
+			.addField(`${square}**Ayrıl**`, `\`${prefix}ayril\` == Listeyi temizler ve odadan ayrılır`);
 		message.channel.send(embed);
 	}
 
