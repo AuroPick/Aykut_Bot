@@ -252,39 +252,44 @@ client.on("message", message => {
 		let validate = ytdl.validateURL(args[1]);
 		if (message.member.voiceChannel) {
 			if (!validate) {
-				search(args.join(' '), function (err, res) {
-					if (err) return message.channel.send("**Hata oluştu!**");
+				message.channel.send(`:mag_right: Aranıyor: \`${args[1]}\``).then(d_msg => {
+					d_msg.delete(500)
+				}, setTimeout(function () {
+					search(args.join(' '), function (err, res) {
+						if (err) return message.channel.send("**Hata oluştu!**");
 
-					let videos = res.videos.slice(0, 10);
+						let videos = res.videos.slice(0, 10);
 
-					let resp = '';
-					for (var i in videos) {
-						resp += `**[${parseInt(i) + 1}]: ** \`${videos[i].title}\`\n`;
-					}
+						let resp = '';
+						for (var i in videos) {
+							resp += `**[${parseInt(i) + 1}]: ** \`${videos[i].title}\`\n`;
+						}
 
-					resp += `\n**\`1 ile ${videos.length} arasında sayı seçiniz!\`**`;
+						resp += `\n**\`1 ile ${videos.length} arasında sayı seçiniz!\`**`;
 
-					message.channel.send(resp);
+						message.channel.send(resp);
 
-					const filter = m => !isNaN(m.content) && m.content < videos.length + 1 && m.content > 0;
+						const filter = m => !isNaN(m.content) && m.content < videos.length + 1 && m.content > 0;
 
-					const collector = message.channel.createMessageCollector(filter);
-					collector.videos = videos;
-					collector.once('collect', function (m) {
-						if (!message.guild.voiceConnection) {
-							message.member.voiceChannel.join().then(function (connection) {
+						const collector = message.channel.createMessageCollector(filter);
+						collector.videos = videos;
+						collector.once('collect', function (m) {
+							if (!message.guild.voiceConnection) {
+								message.member.voiceChannel.join().then(function (connection) {
+									var videourl = videos[parseInt(m.content) - 1].url;
+									server.queue.push(videourl);
+									play(connection, videourl);
+								});
+								return;
+							} else {
 								var videourl = videos[parseInt(m.content) - 1].url;
 								server.queue.push(videourl);
-								play(connection, videourl);
-							});
-							return;
-						} else {
-							var videourl = videos[parseInt(m.content) - 1].url;
-							server.queue.push(videourl);
-							return;
-						}
+								return;
+							}
+						});
 					});
-				});
+				}, 1000));
+
 			} else {
 				if (!message.guild.voiceConnection) {
 					if (message.member.voiceChannel) {
