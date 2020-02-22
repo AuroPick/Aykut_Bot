@@ -9,7 +9,9 @@ const {
 } = require("discord.js");
 const ytdl = require("ytdl-core");
 const search = require("yt-search");
+const randbooru = require("megu-randbooru");
 const client = new Discord.Client();
+const bg = new randbooru.BooruGrabber("sfw");
 const prefix = "-";
 
 var servers = {};
@@ -20,7 +22,9 @@ client.on("ready", () => {
 });
 
 client.on('error', error => {
+	message.channel.send("**Bir sorun oldu tekrar deneyin!**");
 	console.error("HATA:", error);
+	return;
 });
 
 client.on("disconnect", () => {
@@ -107,15 +111,16 @@ client.on("message", message => {
 			.setThumbnail(owner.avatarURL)
 			.setTitle("Komutlar")
 			.addBlankField()
-			.addField(`${square}**Avatar**`, black + prefix + "avatar` == Etiketlenen kişinin avatarını gösterir. Etiket yoksa mesaj sahibinin.")
-			.addField(`${square}**Ana Skm**`, black + prefix + "ana skm` == Etiketlenen kişinin anasını sikersiniz.")
-			.addField(`${square}**Eren**`, black + prefix + "eren` == Eren hakkında bilgi verir.", true)
-			.addField(`${square}**Çağatay**`, black + prefix + "catay` == Çağatay hakkında bilgi verir.", true)
-			.addField(`${square}**Çağır**`, black + prefix + "cagir` == Etiketlenen kişiyi veya role sahip kişileri çağırır. Etiket kullanılmazsa herkesi çağırır.")
-			.addField(`${square}**Çet**`, black + prefix + "cet` == YAAAA ÇEEETT BU NE ABEE", true)
-			.addField(`${square}**Ping**`, black + prefix + "ping` == Botun pingini gösterir.")
-			.addField(`${square}**Emoji**`, black + prefix + `emoji${black} == Tema seçilmezse random emoji oluşturur. \n ${black + prefix}emoji tema${black} == Temaları listeler. \n ${black}Örnek:${black} **${prefix}emoji =** Random emoji: ᕦ( ͡° ͜ʖ ͡°)ᕤ \n ${black}Örnek:${black} **${prefix}emoji pedobear =** Random pedobear emoji: ᶘ ͡°ᴥ ͡°ᶅ `)
-			.addField(`${square}**Müzik**`, `\`${prefix}muzik\` == Müzik komutlarını gösterir.`)
+			.addField(`${square}**Avatar**`, black + prefix + "avatar`\n Etiketlenen kişinin avatarını gösterir. Etiket yoksa mesaj sahibinin.")
+			.addField(`${square}**Ana Skm**`, black + prefix + "ana skm`\n Etiketlenen kişinin anasını sikersiniz.")
+			.addField(`${square}**Eren**`, black + prefix + "eren`\n Eren hakkında bilgi verir.", true)
+			.addField(`${square}**Çağatay**`, black + prefix + "catay`\n Çağatay hakkında bilgi verir.", true)
+			.addField(`${square}**Çağır**`, black + prefix + "cagir`\n Etiketlenen kişiyi veya role sahip kişileri çağırır. Etiket kullanılmazsa herkesi çağırır.")
+			.addField(`${square}**Çet**`, black + prefix + "cet`\n YAAAA ÇEEETT BU NE ABEE", true)
+			.addField(`${square}**Ping**`, black + prefix + "ping`\n Botun pingini gösterir.", true)
+			.addField(`${square}**Emoji**`, black + prefix + `emoji${black}\n Tema seçilmezse random emoji oluşturur. \n ${black + prefix}emoji tema${black}\n Temaları listeler. \n ${black}Örnek${black}\n **${prefix}emoji =** Random emoji: ᕦ( ͡° ͜ʖ ͡°)ᕤ \n ${black}Örnek${black}\n **${prefix}emoji pedobear =** Random pedobear emoji: ᶘ ͡°ᴥ ͡°ᶅ `)
+			.addField(`${square}**Müzik**`, `\`${prefix}muzik\`\n Müzik komutlarını gösterir.`, true)
+			.addField(`${square}**Fotoğraf**`, `\`${prefix}foto anahtar kelime\`\n Anahtar kelimeyle ilgili fotoğraf çeker.`, true)
 			.addField("\u200B", "**Evet şuan sadece bu kadar.**")
 			.setTimestamp()
 			.setFooter("Aykut Saki yapmış", client.user.avatarURL);
@@ -238,7 +243,7 @@ client.on("message", message => {
 
 		if (!args[1]) {
 			const embed = new Discord.RichEmbed()
-				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}oynat link veya anahtar sözcük`)
+				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}oynat link veya anahtar kelime`)
 				.setColor("#ff0000");
 			message.channel.send(embed);
 			return;
@@ -400,6 +405,33 @@ client.on("message", message => {
 			message.channel.send("**Bu komutu kullanabilmek için ses kanalında olman lazım!**");
 		}
 
+	}
+
+	if (message.content.startsWith(`${prefix}foto`)) {
+		const args = message.content.slice(prefix.length).split(" ");
+
+		if (!args[1]) {
+			const embed = new Discord.RichEmbed()
+				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}foto anahtar kelime`)
+				.setColor("#ff0000");
+			message.channel.send(embed);
+			return;
+		}
+
+		new Promise((resolve, reject) => {
+			setTimeout(() => {
+				message.channel.send("**Bir hata oluştu tekrar deneyin! \nAradağınız şey 2 kelimeden oluşuyorsa araya \"_\" koyunuz!**")
+			}, 500);
+		});
+
+		bg.randomImage(args[1]).then(data => {
+			console.log(data)
+			const embed = new Discord.RichEmbed()
+				.setImage(data.image_url)
+				.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
+				.setTimestamp();
+			message.channel.send(embed);
+		});
 	}
 
 
