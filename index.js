@@ -418,20 +418,16 @@ client.on("message", message => {
 			return;
 		}
 
-		new Promise((resolve, reject) => {
-			setTimeout(() => {
-				message.channel.send("**Bir hata oluştu tekrar deneyin! \nAradağınız şey 2 kelimeden oluşuyorsa araya \"_\" koyunuz!**")
-			}, 500);
-		});
-
 		bg.randomImage(args[1]).then(data => {
-			console.log(data)
 			const embed = new Discord.RichEmbed()
 				.setImage(data.image_url)
 				.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
 				.setTimestamp();
 			message.channel.send(embed);
-		});
+		}).catch(err => {
+			console.log(err);
+			message.channel.send("**Bir hata oluştu tekrar deneyiniz!\nAradığınız şey iki kelimeyse araya \"_\" koyunuz!**");
+		})
 	}
 
 
