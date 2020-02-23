@@ -10,8 +10,10 @@ const {
 const ytdl = require("ytdl-core");
 const search = require("yt-search");
 const randbooru = require("megu-randbooru");
+const nhentai = require("nhentai-api-js");
 const client = new Discord.Client();
 const bg = new randbooru.BooruGrabber("sfw");
+const nhentaiapi = new nhentai();
 const prefix = "-";
 
 var servers = {};
@@ -92,6 +94,7 @@ client.on("message", message => {
 			.addField(`${square}**Emoji**`, black + prefix + `emoji${black}\n Tema seçilmezse random emoji oluşturur. \n ${black + prefix}emoji tema${black}\n Temaları listeler. \n ${black}Örnek${black}\n **${prefix}emoji =** Random emoji: ᕦ( ͡° ͜ʖ ͡°)ᕤ \n ${black}Örnek${black}\n **${prefix}emoji pedobear =** Random pedobear emoji: ᶘ ͡°ᴥ ͡°ᶅ `)
 			.addField(`${square}**Müzik**`, `\`${prefix}muzik\`\n Müzik komutlarını gösterir.`, true)
 			.addField(`${square}**Fotoğraf**`, `\`${prefix}foto anahtar kelime\`\n Anahtar kelimeyle ilgili fotoğraf çeker.`, true)
+			.addField(`${square}**Nhentai**`, `\`${prefix}nhentai\`\n Rastgele hentai fotoğrafı paylaşır.`)
 			.addField("\u200B", "**Evet şuan sadece bu kadar.**")
 			.setTimestamp()
 			.setFooter("Aykut Saki yapmış", client.user.avatarURL);
@@ -192,7 +195,7 @@ client.on("message", message => {
 
 	if (message.content.startsWith(`${prefix}oynat`)) {
 
-		let args = message.content.slice(prefix.lenght).split(" ");
+		let args = message.content.slice(prefix.length).split(" ");
 		var server = servers[message.guild.id];
 
 		function play(connection, message) {
@@ -403,6 +406,23 @@ client.on("message", message => {
 		})
 	}
 
+	if (message.content === `${prefix}nhentai`) {
+		nhentaiapi.random().then(gallery => {
+			nhentaiapi.g(gallery.id).then(gallery => {
+				const nhentaifoto = gallery.getPages()[Math.floor(Math.random() * gallery.getPages().length)];
+				const embed = new Discord.RichEmbed()
+				.setAuthor(gallery.title.english, "https://i.ibb.co/d5jFPHg/nhentailogo.png", `https://nhentai.net/g/${gallery.id}`)
+				.setImage(nhentaifoto)
+				.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
+				.setTimestamp();
+				message.channel.send(embed);
+			})
+		})
+	}
+
+
+
+	
 
 });
 
