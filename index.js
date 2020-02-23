@@ -50,32 +50,6 @@ client.on("message", message => {
 
 	}
 
-	if (message.content.startsWith(`${prefix}ana skm`)) {
-		const attachment = new Attachment('https://i.kym-cdn.com/photos/images/newsfeed/001/562/308/87f.jpg');
-		var user = message.mentions.users.first();
-		if (user) {
-			message.channel.send(`<@${user.id}>`, attachment);
-		} else {
-			message.channel.send(attachment);
-		}
-	}
-
-	if (message.content === `${prefix}eren`) {
-		const embed = new RichEmbed()
-			.setTitle("Eren Yiğit")
-			.setColor(0xff0000)
-			.setDescription("Kolsuz oç");
-		message.channel.send(embed);
-	}
-
-	if (message.content === `${prefix}catay`) {
-		let embed = new RichEmbed()
-			.setTitle("Çağatay Toplutepe")
-			.setColor(0xFF0000)
-			.setDescription("Çağatay İmparatorluğu'nun birinci imparatoru I. Çağatay");
-		message.channel.send(embed);
-	}
-
 	if (message.content.startsWith(`${prefix}cagir`)) {
 		var user = message.mentions.users.first();
 		var role = message.mentions.roles.first();
@@ -112,9 +86,6 @@ client.on("message", message => {
 			.setTitle("Komutlar")
 			.addBlankField()
 			.addField(`${square}**Avatar**`, black + prefix + "avatar`\n Etiketlenen kişinin avatarını gösterir. Etiket yoksa mesaj sahibinin.")
-			.addField(`${square}**Ana Skm**`, black + prefix + "ana skm`\n Etiketlenen kişinin anasını sikersiniz.")
-			.addField(`${square}**Eren**`, black + prefix + "eren`\n Eren hakkında bilgi verir.", true)
-			.addField(`${square}**Çağatay**`, black + prefix + "catay`\n Çağatay hakkında bilgi verir.", true)
 			.addField(`${square}**Çağır**`, black + prefix + "cagir`\n Etiketlenen kişiyi veya role sahip kişileri çağırır. Etiket kullanılmazsa herkesi çağırır.")
 			.addField(`${square}**Çet**`, black + prefix + "cet`\n YAAAA ÇEEETT BU NE ABEE", true)
 			.addField(`${square}**Ping**`, black + prefix + "ping`\n Botun pingini gösterir.", true)
