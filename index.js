@@ -421,6 +421,7 @@ client.on("message", message => {
 		bg.randomImage(args[1]).then(data => {
 			console.log(data);
 			const embed = new Discord.RichEmbed()
+				.setAuthor("Safebooru", "https://safebooru.org/images/safechibi.png", data.source_url)
 				.setImage(data.image_url)
 				.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
 				.setTimestamp();
