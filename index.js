@@ -410,9 +410,19 @@ client.on("message", message => {
 		nhentaiapi.random().then(gallery => {
 			nhentaiapi.g(gallery.id).then(gallery => {
 				const nhentaifoto = gallery.getPages()[Math.floor(Math.random() * gallery.getPages().length)];
+				let nhentaitags = [];
+				for (var i in gallery.tags) {
+					if (gallery.tags[i].type == "tag") {
+						array.push(gallery.tags[i].name)
+					}
+					
+				}
+				const nhentaipage = gallery.num_pages;
 				const embed = new Discord.RichEmbed()
 				.setAuthor(gallery.title.english, "https://i.ibb.co/d5jFPHg/nhentailogo.png", `https://nhentai.net/g/${gallery.id}`)
 				.setImage(nhentaifoto)
+				.addField("Tag", nhentaitags, true)
+				.addField("Sayfa", `${nhentaipage} sayfa`, true)
 				.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
 				.setTimestamp();
 				message.channel.send(embed);
