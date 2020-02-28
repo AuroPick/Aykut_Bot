@@ -413,7 +413,7 @@ client.on("message", message => {
 				let nhentaitags = [];
 				for (var i in gallery.tags) {
 					if (gallery.tags[i].type == "tag") {
-						array.push(gallery.tags[i].name)
+						nhentaitags.push(gallery.tags[i].name)
 					}
 					
 				}
