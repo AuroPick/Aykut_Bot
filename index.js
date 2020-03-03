@@ -415,9 +415,9 @@ client.on("message", message => {
 					if (gallery.tags[i].type == "tag") {
 						nhentaitags.push(gallery.tags[i].name)
 					}
-					else {
-						nhentaitags.push("Tag yok");
-					}
+				}
+				if (nhentaitags === "") {
+					nhentaitags.push("Tag yok");
 				}
 				const nhentaipage = gallery.num_pages;
 				const embed = new Discord.RichEmbed()
