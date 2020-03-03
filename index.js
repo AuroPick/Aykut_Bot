@@ -408,6 +408,7 @@ client.on("message", message => {
 
 	if (message.content === `${prefix}nhentai`) {
 		nhentaiapi.random().then(gallery => {
+			console.log(gallery.id);
 			nhentaiapi.g(gallery.id).then(gallery => {
 				const nhentaifoto = gallery.getPages()[Math.floor(Math.random() * gallery.getPages().length)];
 				let nhentaitags = [];
