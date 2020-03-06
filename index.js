@@ -411,13 +411,15 @@ client.on("message", message => {
 			console.log(gallery.id);
 			nhentaiapi.g(gallery.id).then(gallery => {
 				const nhentaifoto = gallery.getPages()[Math.floor(Math.random() * gallery.getPages().length)];
+				let tagyok = true;
 				let nhentaitags = [];
 				for (var i in gallery.tags) {
 					if (gallery.tags[i].type == "tag") {
-						nhentaitags.push(gallery.tags[i].name)
+						nhentaitags.push(gallery.tags[i].name);
+						tagyok = false;
 					}
 				}
-				if (nhentaitags === "") {
+				if (tagyok) {
 					nhentaitags.push("Tag yok");
 				}
 				const nhentaipage = gallery.num_pages;
