@@ -131,7 +131,7 @@ client.on("message", message => {
 	}
 
 	if (message.channel.id == 455145845986295838) {
-		if (message.content.startsWith("!p") || message.content.startsWith("!loop") || message.content.startsWith("!s") || message.author.id == 235088799074484224 || message.content.startsWith("!leave")) {
+		if (message.content.startsWith("!p") || message.content.startsWith("!loop") || message.content.startsWith("!s") || message.author.id == 235088799074484224 || message.content.startsWith("!leave") || message.content.startsWith(";;") || message.author.id == 184405311681986560) {
 			message.delete(1000);
 		}
 	}
