@@ -404,7 +404,17 @@ client.on("message", message => {
 			message.channel.send(embed);
 		}).catch(err => {
 			console.log(err);
-			message.channel.send("**Bir hata oluştu tekrar deneyiniz!\nAradığınız şey iki kelimeyse araya \"_\" koyunuz!**");
+			const embed = new Discord.RichEmbed()
+				.setAuthor(client.user.username, client.user.avatarURL, "https://discord.js.org")
+				.setTitle("**Bir hata oluştu!**")
+				.setDescription("**Bir hata oluştu hatanın sebebi aşağıdakilerden biri olabilir**")
+				.addField("\u200B", "\`1 - Aradığın kelimeyle ilgili bir sonuç olmayabilir\`")
+				.addBlankField()
+				.addField("\u200B", "\`2 - Kelimeyi yanlış yazmış olabilirsin Safeebooru'da arama yaparken araya boşluk koyulmaz işte nasıl arama yapılacağıyla ilgili bir örnek:\`")
+				.setImage("https://i.ibb.co/RgQWYCc/Safebooru-ornek.png")
+				.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
+				.setTimestamp();
+				message.channel.send(embed);
 		})
 	}
 
