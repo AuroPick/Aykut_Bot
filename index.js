@@ -411,7 +411,7 @@ client.on("message", message => {
 				.addField("\u200B", "\`1 - Aradığın kelimeyle ilgili bir sonuç olmayabilir\`")
 				.addBlankField()
 				.addField("\u200B", "\`2 - Kelimeyi yanlış yazmış olabilirsin Safeebooru'da arama yaparken araya boşluk koyulmaz işte nasıl arama yapılacağıyla ilgili bir örnek:\`")
-				.setImage("https://i.ibb.co/RgQWYCc/Safebooru-ornek.png")
+				.setImage("https://i.ibb.co/Hqp0jT4/Safebooru-ornek.png")
 				.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
 				.setTimestamp();
 				message.channel.send(embed);
