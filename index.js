@@ -13,6 +13,8 @@ const randbooru = require("megu-randbooru");
 const nhentai = require("nhentai-api-js");
 const client = new Discord.Client();
 const bg = new randbooru.BooruGrabber("sfw");
+const DabiImages = require("dabi-images");
+const DabiClient = new DabiImages.Client();
 const nhentaiapi = new nhentai();
 const prefix = "-";
 
@@ -95,6 +97,7 @@ client.on("message", message => {
 			.addField(`${square}**Müzik**`, `\`${prefix}muzik\`\n Müzik komutlarını gösterir.`, true)
 			.addField(`${square}**Fotoğraf**`, `\`${prefix}foto anahtar kelime\`\n Anahtar kelimeyle ilgili fotoğraf çeker.`, true)
 			.addField(`${square}**Nhentai**`, `\`${prefix}nhentai\`\n Rastgele hentai fotoğrafı paylaşır.`)
+			.addField(`${square}**NSFW**`, `\`${prefix}nsfw [tür] [tag]\`\n kullanımını görmek için ${prefix}nsfw yazın.`)
 			.addField("\u200B", "**Evet şuan sadece bu kadar.**")
 			.setTimestamp()
 			.setFooter("Aykut Saki yapmış", client.user.avatarURL);
@@ -414,8 +417,120 @@ client.on("message", message => {
 				.setImage("https://i.ibb.co/Hqp0jT4/Safebooru-ornek.png")
 				.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
 				.setTimestamp();
-				message.channel.send(embed);
+			message.channel.send(embed);
 		})
+	}
+
+	if (message.content.startsWith(`${prefix}nsfw`)) {
+		const args = message.content.slice(prefix.length).split(" ");
+
+		if (!args[1]) {
+			const embed = new Discord.RichEmbed()
+				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}nsfw [tür] [tag]`)
+				.setColor("#ff0000")
+				.addField("**Real**", "\`ass\` \`thighs\` \`panties\` \`random\`")
+				.addField("**Hentai**", "\`ass\` \`thighs\` \`panties\` \`feet\`")
+				.addField("**Örnek Kullanım**", `\`${prefix}nsfw real random\``);
+			message.channel.send(embed);
+			return;
+		}
+
+		if (args[1].toLowerCase() === "real") {
+			if (args[2].toLowerCase() === "ass") {
+				DabiClient.nsfw.real.ass().then(data => {
+					console.log(data);
+					const embed = new Discord.RichEmbed()
+						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg", `https://www.reddit.com${data.source}`)
+						.setImage(data.url)
+						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
+						.setTimestamp();
+					message.channel.send(embed);
+				})
+			}
+			if (args[2].toLowerCase() === "thighs") {
+				DabiClient.nsfw.real.thighs().then(data => {
+					console.log(data);
+					const embed = new Discord.RichEmbed()
+						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg", `https://www.reddit.com${data.source}`)
+						.setImage(data.url)
+						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
+						.setTimestamp();
+					message.channel.send(embed);
+				})
+			}
+			if (args[2].toLowerCase() === "panties") {
+				DabiClient.nsfw.real.panties().then(data => {
+					console.log(data);
+					const embed = new Discord.RichEmbed()
+						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg", `https://www.reddit.com${data.source}`)
+						.setImage(data.url)
+						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
+						.setTimestamp();
+					message.channel.send(embed);
+				})
+			}
+
+			if (args[2].toLowerCase() === "random") {
+				DabiClient.nsfw.real.random().then(data => {
+					console.log(data);
+					const embed = new Discord.RichEmbed()
+						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg", `https://www.reddit.com${data.source}`)
+						.setImage(data.url)
+						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
+						.setTimestamp();
+					message.channel.send(embed);
+				})
+			}
+
+		}
+
+		if (args[1].toLowerCase() === "hentai") {
+			if (args[2].toLowerCase() === "ass") {
+				DabiClient.nsfw.hentai.ass().then(data => {
+					console.log(data);
+					const embed = new Discord.RichEmbed()
+						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg")
+						.setImage(data.url)
+						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
+						.setTimestamp();
+					message.channel.send(embed);
+				})
+			}
+			if (args[2].toLowerCase() === "thighs") {
+				DabiClient.nsfw.hentai.thighs().then(data => {
+					console.log(data);
+					const embed = new Discord.RichEmbed()
+						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg")
+						.setImage(data.url)
+						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
+						.setTimestamp();
+					message.channel.send(embed);
+				})
+			}
+			if (args[2].toLowerCase() === "panties") {
+				DabiClient.nsfw.hentai.panties().then(data => {
+					console.log(data);
+					const embed = new Discord.RichEmbed()
+						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg")
+						.setImage(data.url)
+						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
+						.setTimestamp();
+					message.channel.send(embed);
+				})
+			}
+			if (args[2].toLowerCase() === "feet") {
+				DabiClient.nsfw.hentai.feet().then(data => {
+					console.log(data);
+					const embed = new Discord.RichEmbed()
+						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg")
+						.setImage(data.url)
+						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
+						.setTimestamp();
+					message.channel.send(embed);
+				})
+			}
+		}
+
 	}
 
 	if (message.content === `${prefix}nhentai`) {
