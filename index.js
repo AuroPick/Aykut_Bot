@@ -84,7 +84,7 @@ client.on("message", message => {
 		const black = "`";
 		const square = ":small_blue_diamond:";
 		const embed = new Discord.RichEmbed()
-			.setAuthor(client.user.username, client.user.avatarURL, "https://discord.js.org")
+			.setAuthor(client.user.username, client.user.avatarURL, "https://github.com/AuroPick")
 			.setDescription(`Bir gün herkes ${client.user.username} kullanacak!`)
 			.setThumbnail(owner.avatarURL)
 			.setTitle("Komutlar")
@@ -110,7 +110,7 @@ client.on("message", message => {
 		const owner = client.users.get(ownerid);
 		const square = ":small_blue_diamond:";
 		const embed = new Discord.RichEmbed()
-			.setAuthor(client.user.username, client.user.avatarURL, "https://discord.js.org")
+			.setAuthor(client.user.username, client.user.avatarURL, "https://github.com/AuroPick")
 			.setDescription(`Bir gün herkes ${client.user.username} kullanacak!`)
 			.setThumbnail(owner.avatarURL)
 			.setTitle("Komutlar")
@@ -167,7 +167,7 @@ client.on("message", message => {
 		}
 
 		const embed = new Discord.RichEmbed()
-			.setAuthor(client.user.username, client.user.avatarURL, "https://discord.js.org")
+			.setAuthor(client.user.username, client.user.avatarURL, "https://github.com/AuroPick")
 			.setTitle(":signal_strength: Ping")
 			.addField("**Bot**", `**${Math.round(client.ping)}ms** ${ping_durum}`)
 			.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
@@ -425,7 +425,7 @@ client.on("message", message => {
 		}).catch(err => {
 			console.log(err);
 			const embed = new Discord.RichEmbed()
-				.setAuthor(client.user.username, client.user.avatarURL, "https://discord.js.org")
+				.setAuthor(client.user.username, client.user.avatarURL, "https://github.com/AuroPick")
 				.setTitle("**Bir hata oluştu!**")
 				.setDescription("**Bir hata oluştu hatanın sebebi aşağıdakilerden biri olabilir**")
 				.addField("\u200B", "\`1 - Aradığın kelimeyle ilgili bir sonuç olmayabilir\`")
