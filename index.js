@@ -97,7 +97,8 @@ client.on("message", message => {
 			.addField(`${square}**Müzik**`, `\`${prefix}muzik\`\n Müzik komutlarını gösterir.`, true)
 			.addField(`${square}**Fotoğraf**`, `\`${prefix}foto anahtar kelime\`\n Anahtar kelimeyle ilgili fotoğraf çeker.`, true)
 			.addField(`${square}**Nhentai**`, `\`${prefix}nhentai\`\n Rastgele hentai fotoğrafı paylaşır.`)
-			.addField(`${square}**NSFW**`, `\`${prefix}nsfw [tür] [tag]\`\n kullanımını görmek için ${prefix}nsfw yazın.`)
+			.addField(`${square}**NSFW**`, `\`${prefix}nsfw [tür] [tag]\`\n kullanımını görmek için ${prefix}nsfw yazın.`, true)
+			.addField(`${square}**Moderasyon**`, `\`${prefix}moderasyon\`\nModerasyon komutlarını gösterir.`, true)
 			.addField("\u200B", "**Evet şuan sadece bu kadar.**")
 			.setTimestamp()
 			.setFooter("Aykut Saki yapmış", client.user.avatarURL);
@@ -119,6 +120,22 @@ client.on("message", message => {
 			.addField(`${square}**Durdur**`, `\`${prefix}durdur\` == Listeyi temizler ve odadan ayrılır.`)
 			.addField(`${square}**Bağlan**`, `\`${prefix}baglan\` == Odaya bağlanır.`)
 			.addField(`${square}**Ayrıl**`, `\`${prefix}ayril\` == Listeyi temizler ve odadan ayrılır`)
+			.setTimestamp()
+			.setFooter("Aykut Saki yapmış", client.user.avatarURL);
+		message.channel.send(embed);
+	}
+
+	if (message.content === `${prefix}moderasyon`) {
+		const square = ":small_blue_diamond:";
+		const embed = new Discord.RichEmbed()
+			.setAuthor(client.user.username, client.user.avatarURL, "https://github.com/AuroPick")
+			.setDescription(`Bir gün herkes ${client.user.username} kullanacak!`)
+			.setTitle("Komutlar")
+			.addBlankField()
+			.addField(`${square}**Kick**`, `\`${prefix}kick [üye] [sebep(isteğe bağlı)]\`\nEtiketlenen kişiyi kickler.`)
+			.addField(`${square}**Ban**`, `\`${prefix}ban [üye] [sebep(isteğe bağlı)]\`\nEtiketlenen kişiyi banlar.`)
+			.addField(`${square}**Kanal Oluşturma**`, `\`${prefix}kanalolustur [kanal ismi]\`\nYazılan isimle text kanalı oluşturur.`)
+			.addField(`${square}**Kanal Silme**`, `\`${prefix}kanalsil\`\nMesaj yazılan kanalı siler.`)
 			.setTimestamp()
 			.setFooter("Aykut Saki yapmış", client.user.avatarURL);
 		message.channel.send(embed);
@@ -562,7 +579,91 @@ client.on("message", message => {
 		})
 	}
 
+	if (message.content.startsWith(`${prefix}kanalolustur`)) {
+		const args = message.content.slice(prefix.length).split(" ");
 
+		if (!args[1]) {
+			const embed = new Discord.RichEmbed()
+				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}kanalolustur [kanal ismi]`)
+				.setColor("#ff0000")
+			message.channel.send(embed);
+			return;
+		}
+		message.guild.createChannel(args[1], "text").then(console.log).catch(console.error);
+	}
+
+	if (message.content.startsWith(`${prefix}kanalsil`)) {
+
+		message.channel.delete().then(console.log).catch(console.error);
+	}
+
+	if (message.content.startsWith(`${prefix}kick`)) {
+		const args = message.content.split(" ").slice(2).join(" ");
+		const user = message.mentions.users.first();
+
+		if (user) {
+
+			const member = message.guild.member(user);
+
+			if (member) {
+				if (args) {
+					member.kick(args).then(() => {
+						message.channel.send(`\`${user.username}\` başarıyla kicklendi!\n**Sebep: ${args}**`);
+					}).catch(err => {
+						message.channel.send("Kickleyemedim!");
+						console.log(err);
+					})
+				} else {
+					member.kick().then(() => {
+						message.channel.send(`\`${user.username}\` başarıyla kicklendi!`);
+					}).catch(err => {
+						message.channel.send("Kickleyemedim!");
+						console.log(err);
+					})
+				}
+
+			} else {
+				message.channel.send("Bu kişi sunucuda değil!");
+			}
+		} else {
+			message.channel.send("Birini etiketlemedin!");
+		}
+	}
+
+	if (message.content.startsWith(`${prefix}ban`)) {
+		const args = message.content.split(" ").slice(2).join(" ");
+		const user = message.mentions.users.first();
+
+		if (user) {
+
+			const member = message.guild.member(user);
+
+			if (member) {
+				if (args) {
+					member.ban({
+						reason: args,
+					}).then(() => {
+						message.channel.send(`\`${user.username}\` başarıyla banlandı!\n**Sebep: ${args}**`);
+					}).catch(err => {
+						message.channel.send("Banlayamadım!");
+						console.log(err);
+					})
+				} else {
+					member.ban().then(() => {
+						message.channel.send(`\`${user.username}\` başarıyla banlandı!`);
+					}).catch(err => {
+						message.channel.send("Banlayamadım!");
+						console.log(err);
+					})
+				}
+
+			} else {
+				message.channel.send("Bu kişi sunucuda değil!");
+			}
+		} else {
+			message.channel.send("Birini etiketlemedin!");
+		}
+	}
 
 
 
