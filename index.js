@@ -438,7 +438,7 @@ client.on("message", message => {
 		})
 	}
 
-	if (message.content.startsWith(`${prefix}nsfw`)) {
+	if (message.content.toLowerCase().startsWith(`${prefix}nsfw`)) {
 		const args = message.content.slice(prefix.length).split(" ");
 
 		if (!args[1]) {
