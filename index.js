@@ -622,14 +622,14 @@ client.on("message", message => {
 			if (member) {
 				if (args) {
 					member.kick(args).then(() => {
-						message.channel.send(`\`${user.username}\` başarıyla kicklendi!\n**Sebep: ${args}**`);
+						message.channel.send(`<@${user.id}> başarıyla kicklendi!\n**Sebep: ${args}**`);
 					}).catch(err => {
 						message.channel.send("Kickleyemedim!");
 						console.log(err);
 					})
 				} else {
 					member.kick().then(() => {
-						message.channel.send(`\`${user.username}\` başarıyla kicklendi!`);
+						message.channel.send(`<@${user.id}> başarıyla kicklendi!`);
 					}).catch(err => {
 						message.channel.send("Kickleyemedim!");
 						console.log(err);
@@ -662,14 +662,14 @@ client.on("message", message => {
 					member.ban({
 						reason: args,
 					}).then(() => {
-						message.channel.send(`\`${user.username}\` başarıyla banlandı!\n**Sebep: ${args}**`);
+						message.channel.send(`<@${user.id}> başarıyla banlandı!\n**Sebep: ${args}**`);
 					}).catch(err => {
 						message.channel.send("Banlayamadım!");
 						console.log(err);
 					})
 				} else {
 					member.ban().then(() => {
-						message.channel.send(`\`${user.username}\` başarıyla banlandı!`);
+						message.channel.send(`<@${user.id}> başarıyla banlandı!`);
 					}).catch(err => {
 						message.channel.send("Banlayamadım!");
 						console.log(err);
