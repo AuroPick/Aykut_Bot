@@ -582,6 +582,11 @@ client.on("message", message => {
 	if (message.content.startsWith(`${prefix}kanalolustur`)) {
 		const args = message.content.slice(prefix.length).split(" ");
 
+		if (!message.member.hasPermission("MANAGE_CHANNELS")) {
+			message.channel.send("Kanal oluşturma yetkiniz yok!");
+			return;
+		}
+
 		if (!args[1]) {
 			const embed = new Discord.RichEmbed()
 				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}kanalolustur [kanal ismi]`)
@@ -593,6 +598,10 @@ client.on("message", message => {
 	}
 
 	if (message.content.startsWith(`${prefix}kanalsil`)) {
+		if (!message.member.hasPermission("MANAGE_CHANNELS")) {
+			message.channel.send("Kanal silme yetkiniz yok!");
+			return;
+		}
 
 		message.channel.delete().then(console.log).catch(console.error);
 	}
@@ -600,6 +609,11 @@ client.on("message", message => {
 	if (message.content.startsWith(`${prefix}kick`)) {
 		const args = message.content.split(" ").slice(2).join(" ");
 		const user = message.mentions.users.first();
+
+		if (!message.member.hasPermission("KICK_MEMBERS")) {
+			message.channel.send("Kick atma yetkiniz yok!");
+			return;
+		}
 
 		if (user) {
 
@@ -633,6 +647,11 @@ client.on("message", message => {
 	if (message.content.startsWith(`${prefix}ban`)) {
 		const args = message.content.split(" ").slice(2).join(" ");
 		const user = message.mentions.users.first();
+
+		if (!message.member.hasPermission("BAN_MEMBERS")) {
+			message.channel.send("Ban atma yetkiniz yok!");
+			return;
+		}
 
 		if (user) {
 
