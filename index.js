@@ -441,6 +441,11 @@ client.on("message", message => {
 	if (message.content.toLowerCase().startsWith(`${prefix}nsfw`)) {
 		const args = message.content.slice(prefix.length).split(" ");
 
+		if (message.channel.id == 547432551510179861) {
+			message.channel.send("Bu mesajı burada kullanamazsın!");
+			return;
+		}
+
 		if (!args[1]) {
 			const embed = new Discord.RichEmbed()
 				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}nsfw [tür] [tag]`)
@@ -456,46 +461,90 @@ client.on("message", message => {
 			if (args[2].toLowerCase() === "ass") {
 				DabiClient.nsfw.real.ass().then(data => {
 					console.log(data);
-					const embed = new Discord.RichEmbed()
-						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg", `https://www.reddit.com${data.source}`)
-						.setImage(data.url)
-						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
-						.setTimestamp();
-					message.channel.send(embed);
+					const embed_1 = {
+						author: {
+							name: "NSFW",
+							icon_url: "https://i.ibb.co/x3qJNFC/nsfw.jpg",
+							url: `https://www.reddit.com${data.source}`,
+						},
+						files: [{
+							attachment: data.url,
+							name: 'SPOILER_NAME.jpg',
+						  },],
+						  footer: {
+							  text: `${message.author.username} istedi`,
+							  icon_url: message.author.avatarURL,
+						  },
+						  timestamp: new Date(),
+					}; 
+					message.channel.send({embed: embed_1});
 				})
 			}
 			if (args[2].toLowerCase() === "thighs") {
 				DabiClient.nsfw.real.thighs().then(data => {
 					console.log(data);
-					const embed = new Discord.RichEmbed()
-						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg", `https://www.reddit.com${data.source}`)
-						.setImage(data.url)
-						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
-						.setTimestamp();
-					message.channel.send(embed);
+					const embed_1 = {
+						author: {
+							name: "NSFW",
+							icon_url: "https://i.ibb.co/x3qJNFC/nsfw.jpg",
+							url: `https://www.reddit.com${data.source}`,
+						},
+						files: [{
+							attachment: data.url,
+							name: 'SPOILER_NAME.jpg',
+						  },],
+						  footer: {
+							  text: `${message.author.username} istedi`,
+							  icon_url: message.author.avatarURL,
+						  },
+						  timestamp: new Date(),
+					}; 
+					message.channel.send({embed: embed_1});
 				})
 			}
 			if (args[2].toLowerCase() === "panties") {
 				DabiClient.nsfw.real.panties().then(data => {
 					console.log(data);
-					const embed = new Discord.RichEmbed()
-						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg", `https://www.reddit.com${data.source}`)
-						.setImage(data.url)
-						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
-						.setTimestamp();
-					message.channel.send(embed);
+					const embed_1 = {
+						author: {
+							name: "NSFW",
+							icon_url: "https://i.ibb.co/x3qJNFC/nsfw.jpg",
+							url: `https://www.reddit.com${data.source}`,
+						},
+						files: [{
+							attachment: data.url,
+							name: 'SPOILER_NAME.jpg',
+						  },],
+						  footer: {
+							  text: `${message.author.username} istedi`,
+							  icon_url: message.author.avatarURL,
+						  },
+						  timestamp: new Date(),
+					}; 
+					message.channel.send({embed: embed_1});
 				})
 			}
 
 			if (args[2].toLowerCase() === "random") {
 				DabiClient.nsfw.real.random().then(data => {
 					console.log(data);
-					const embed = new Discord.RichEmbed()
-						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg", `https://www.reddit.com${data.source}`)
-						.setImage(data.url)
-						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
-						.setTimestamp();
-					message.channel.send(embed);
+					const embed_1 = {
+						author: {
+							name: "NSFW",
+							icon_url: "https://i.ibb.co/x3qJNFC/nsfw.jpg",
+							url: `https://www.reddit.com${data.source}`,
+						},
+						files: [{
+							attachment: data.url,
+							name: 'SPOILER_NAME.jpg',
+						  },],
+						  footer: {
+							  text: `${message.author.username} istedi`,
+							  icon_url: message.author.avatarURL,
+						  },
+						  timestamp: new Date(),
+					}; 
+					message.channel.send({embed: embed_1});
 				})
 			}
 
@@ -505,45 +554,89 @@ client.on("message", message => {
 			if (args[2].toLowerCase() === "ass") {
 				DabiClient.nsfw.hentai.ass().then(data => {
 					console.log(data);
-					const embed = new Discord.RichEmbed()
-						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg")
-						.setImage(data.url)
-						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
-						.setTimestamp();
-					message.channel.send(embed);
+					const embed_1 = {
+						author: {
+							name: "NSFW",
+							icon_url: "https://i.ibb.co/x3qJNFC/nsfw.jpg",
+							url: `https://www.reddit.com${data.source}`,
+						},
+						files: [{
+							attachment: data.url,
+							name: 'SPOILER_NAME.jpg',
+						  },],
+						  footer: {
+							  text: `${message.author.username} istedi`,
+							  icon_url: message.author.avatarURL,
+						  },
+						  timestamp: new Date(),
+					}; 
+					message.channel.send({embed: embed_1});
 				})
 			}
 			if (args[2].toLowerCase() === "thighs") {
 				DabiClient.nsfw.hentai.thighs().then(data => {
 					console.log(data);
-					const embed = new Discord.RichEmbed()
-						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg")
-						.setImage(data.url)
-						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
-						.setTimestamp();
-					message.channel.send(embed);
+					const embed_1 = {
+						author: {
+							name: "NSFW",
+							icon_url: "https://i.ibb.co/x3qJNFC/nsfw.jpg",
+							url: `https://www.reddit.com${data.source}`,
+						},
+						files: [{
+							attachment: data.url,
+							name: 'SPOILER_NAME.jpg',
+						  },],
+						  footer: {
+							  text: `${message.author.username} istedi`,
+							  icon_url: message.author.avatarURL,
+						  },
+						  timestamp: new Date(),
+					}; 
+					message.channel.send({embed: embed_1});
 				})
 			}
 			if (args[2].toLowerCase() === "panties") {
 				DabiClient.nsfw.hentai.panties().then(data => {
 					console.log(data);
-					const embed = new Discord.RichEmbed()
-						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg")
-						.setImage(data.url)
-						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
-						.setTimestamp();
-					message.channel.send(embed);
+					const embed_1 = {
+						author: {
+							name: "NSFW",
+							icon_url: "https://i.ibb.co/x3qJNFC/nsfw.jpg",
+							url: `https://www.reddit.com${data.source}`,
+						},
+						files: [{
+							attachment: data.url,
+							name: 'SPOILER_NAME.jpg',
+						  },],
+						  footer: {
+							  text: `${message.author.username} istedi`,
+							  icon_url: message.author.avatarURL,
+						  },
+						  timestamp: new Date(),
+					}; 
+					message.channel.send({embed: embed_1});
 				})
 			}
 			if (args[2].toLowerCase() === "feet") {
 				DabiClient.nsfw.hentai.feet().then(data => {
 					console.log(data);
-					const embed = new Discord.RichEmbed()
-						.setAuthor("NSFW", "https://i.ibb.co/x3qJNFC/nsfw.jpg")
-						.setImage(data.url)
-						.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
-						.setTimestamp();
-					message.channel.send(embed);
+					const embed_1 = {
+						author: {
+							name: "NSFW",
+							icon_url: "https://i.ibb.co/x3qJNFC/nsfw.jpg",
+							url: `https://www.reddit.com${data.source}`,
+						},
+						files: [{
+							attachment: data.url,
+							name: 'SPOILER_NAME.jpg',
+						  },],
+						  footer: {
+							  text: `${message.author.username} istedi`,
+							  icon_url: message.author.avatarURL,
+						  },
+						  timestamp: new Date(),
+					}; 
+					message.channel.send({embed: embed_1});
 				})
 			}
 		}
