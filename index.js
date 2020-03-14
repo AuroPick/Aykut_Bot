@@ -135,7 +135,7 @@ client.on("message", message => {
 			.addField(`${square}**Kick**`, `\`${prefix}kick [üye] [sebep(isteğe bağlı)]\`\nEtiketlenen kişiyi kickler.`)
 			.addField(`${square}**Ban**`, `\`${prefix}ban [üye] [sebep(isteğe bağlı)]\`\nEtiketlenen kişiyi banlar.`)
 			.addField(`${square}**Kanal Oluşturma**`, `\`${prefix}kanalolustur [kanal ismi]\`\nYazılan isimle text kanalı oluşturur.`)
-			.addField(`${square}**Kanal Silme**`, `\`${prefix}kanalsil\`\nMesaj yazılan kanalı siler.`)
+			.addField(`${square}**Kanal Silme**`, `\`${prefix}kanalsil\`\nMesajın yazıldığı kanal silinir.`)
 			.setTimestamp()
 			.setFooter("Aykut Saki yapmış", client.user.avatarURL);
 		message.channel.send(embed);
