@@ -249,6 +249,7 @@ client.on("message", message => {
 		var server = servers[message.guild.id];
 
 		let validate = ytdl.validateURL(args[1]);
+		
 		if (message.member.voiceChannel) {
 			if (!validate) {
 				message.channel.send(`:mag_right: **Aranıyor:** \`${args[1]}\``).then(d_msg => {
@@ -295,6 +296,7 @@ client.on("message", message => {
 				if (!message.guild.voiceConnection) {
 					if (message.member.voiceChannel) {
 						message.member.voiceChannel.join().then(function (connection) {
+							server.queue.push(args[1]);
 							play(connection, message);
 						});
 					}
