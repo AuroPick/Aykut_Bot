@@ -560,7 +560,7 @@ client.on("message", message => {
 						author: {
 							name: "NSFW",
 							icon_url: "https://i.ibb.co/x3qJNFC/nsfw.jpg",
-							url: `https://www.reddit.com${data.source}`,
+							url: data.url,
 						},
 						files: [{
 							attachment: data.url,
@@ -582,7 +582,7 @@ client.on("message", message => {
 						author: {
 							name: "NSFW",
 							icon_url: "https://i.ibb.co/x3qJNFC/nsfw.jpg",
-							url: `https://www.reddit.com${data.source}`,
+							url: data.url,
 						},
 						files: [{
 							attachment: data.url,
@@ -604,7 +604,7 @@ client.on("message", message => {
 						author: {
 							name: "NSFW",
 							icon_url: "https://i.ibb.co/x3qJNFC/nsfw.jpg",
-							url: `https://www.reddit.com${data.source}`,
+							url: data.url,
 						},
 						files: [{
 							attachment: data.url,
@@ -626,7 +626,7 @@ client.on("message", message => {
 						author: {
 							name: "NSFW",
 							icon_url: "https://i.ibb.co/x3qJNFC/nsfw.jpg",
-							url: `https://www.reddit.com${data.source}`,
+							url: data.url,
 						},
 						files: [{
 							attachment: data.url,
