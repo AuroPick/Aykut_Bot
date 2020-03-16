@@ -136,6 +136,7 @@ client.on("message", message => {
 			.addField(`${square}**Ban**`, `\`${prefix}ban [üye] [sebep(isteğe bağlı)]\`\nEtiketlenen kişiyi banlar.`)
 			.addField(`${square}**Kanal Oluşturma**`, `\`${prefix}kanalolustur [kanal ismi]\`\nYazılan isimle text kanalı oluşturur.`)
 			.addField(`${square}**Kanal Silme**`, `\`${prefix}kanalsil\`\nMesajın yazıldığı kanal silinir.`)
+			.addField(`${square}**Susturma**`, `\`${prefix}sustur [üye] [süre] [süre tipi]\`\nÜyeyi susturur. "sustur" isimli rol oluşturulması zorunludur!`)
 			.setTimestamp()
 			.setFooter("Aykut Saki yapmış", client.user.avatarURL);
 		message.channel.send(embed);
@@ -869,7 +870,77 @@ client.on("message", message => {
 		}
 	}
 
+	if (message.content.startsWith(`${prefix}sustur`)) {
 
+		function sustur(name, time, type) {
+			let rawtime = parseInt(time);
+
+			if (isNaN(rawtime)) {
+				message.channel.send("Sayı giriniz!");
+				return;
+			}
+
+			if (type.toLowerCase() === "dakika") {
+				time *= 60000;
+			}
+			if (type.toLowerCase() === "saat") {
+				time *= 3600000;
+			}
+			if (type.toLowerCase() === "gün") {
+				time *= 86400000;
+			}
+
+			if (type.toLowerCase() === "dakika" || type.toLowerCase() === "saat" || type.toLowerCase() === "gün") {
+				let role = message.guild.roles.find(rol => rol.name.toLowerCase() === "sustur");
+				if (!role) {
+					message.channel.send("\"sustur\" isimli rol yok!");
+				}
+				let userroles = name.roles;
+				name.removeRoles(name.roles);
+				name.addRole(role);
+				message.channel.send(`<@${name.id}> başarıyla ${rawtime} ${type} susturuldu.`);
+				setTimeout(function () {
+					name.removeRole(role);
+					name.addRoles(userroles);
+					message.channel.send(`<@${name.id}>'den susturma başarıyla geri alındı.`);
+				}, time);
+			} else {
+				message.channel.send("Düzgün yazınız!");
+			}
+
+		}
+
+		if (!message.member.hasPermission("MANAGE_ROLES")) {
+			message.channel.send("Susturma yetkiniz yok!");
+			return;
+		}
+
+		const args = message.content.slice(prefix.length).split(" ");
+		const user = message.mentions.users.first();
+
+		if (!args[1]) {
+			const ownerid = '231457748422885378';
+			const owner = client.users.get(ownerid);
+			const embed = new Discord.RichEmbed()
+				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}sustur [üye] [süre] [süre tipi]\n\n**Sustur**\n${prefix}sustur @${owner.username} 7 gün`)
+				.setColor("#ff0000")
+				.setTimestamp();
+			message.channel.send(embed);
+			return;
+		}
+
+		if (user) {
+			const member = message.guild.member(user);
+			if (member && args[2]) {
+				sustur(member, args[2], args[3]);
+			} else {
+				message.channel.send("Bu kişi sunucuda değil!")
+			}
+		} else {
+			message.channel.send("Birini etiketlemedin!");
+		}
+
+	}
 
 
 });
