@@ -901,6 +901,8 @@ client.on("message", message => {
 				message.channel.send(`<@${name.id}> başarıyla ${rawtime} ${type} susturuldu.`);
 				setTimeout(function () {
 					name.removeRole(role);
+				}, time - 3);
+				setTimeout(function () {
 					name.addRoles(userroles);
 					message.channel.send(`<@${name.id}>'den susturma başarıyla geri alındı.`);
 				}, time);
