@@ -463,7 +463,7 @@ client.on("message", message => {
 			if (args[2].toLowerCase() === "ass") {
 				DabiClient.nsfw.real.ass().then(data => {
 					console.log(data);
-					if (message.guild.id === 392018703723659264) {
+					if (message.guild.id == 392018703723659264) {
 						const embed_1 = {
 							author: {
 								name: "NSFW",
@@ -497,7 +497,7 @@ client.on("message", message => {
 			if (args[2].toLowerCase() === "thighs") {
 				DabiClient.nsfw.real.thighs().then(data => {
 					console.log(data);
-					if (message.guild.id === 392018703723659264) {
+					if (message.guild.id == 392018703723659264) {
 						const embed_1 = {
 							author: {
 								name: "NSFW",
@@ -530,7 +530,7 @@ client.on("message", message => {
 			if (args[2].toLowerCase() === "panties") {
 				DabiClient.nsfw.real.panties().then(data => {
 					console.log(data);
-					if (message.guild.id === 392018703723659264) {
+					if (message.guild.id == 392018703723659264) {
 						const embed_1 = {
 							author: {
 								name: "NSFW",
@@ -564,7 +564,7 @@ client.on("message", message => {
 			if (args[2].toLowerCase() === "random") {
 				DabiClient.nsfw.real.random().then(data => {
 					console.log(data);
-					if (message.guild.id === 392018703723659264) {
+					if (message.guild.id == 392018703723659264) {
 						const embed_1 = {
 							author: {
 								name: "NSFW",
@@ -601,7 +601,7 @@ client.on("message", message => {
 			if (args[2].toLowerCase() === "ass") {
 				DabiClient.nsfw.hentai.ass().then(data => {
 					console.log(data);
-					if (message.guild.id === 392018703723659264) {
+					if (message.guild.id == 392018703723659264) {
 						const embed_1 = {
 							author: {
 								name: "NSFW",
@@ -635,7 +635,7 @@ client.on("message", message => {
 			if (args[2].toLowerCase() === "thighs") {
 				DabiClient.nsfw.hentai.thighs().then(data => {
 					console.log(data);
-					if (message.guild.id === 392018703723659264) {
+					if (message.guild.id == 392018703723659264) {
 						const embed_1 = {
 							author: {
 								name: "NSFW",
@@ -668,7 +668,7 @@ client.on("message", message => {
 			if (args[2].toLowerCase() === "panties") {
 				DabiClient.nsfw.hentai.panties().then(data => {
 					console.log(data);
-					if (message.guild.id === 392018703723659264) {
+					if (message.guild.id == 392018703723659264) {
 						const embed_1 = {
 							author: {
 								name: "NSFW",
@@ -701,7 +701,7 @@ client.on("message", message => {
 			if (args[2].toLowerCase() === "feet") {
 				DabiClient.nsfw.hentai.feet().then(data => {
 					console.log(data);
-					if (message.guild.id === 392018703723659264) {
+					if (message.guild.id == 392018703723659264) {
 						const embed_1 = {
 							author: {
 								name: "NSFW",
