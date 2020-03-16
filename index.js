@@ -873,7 +873,7 @@ client.on("message", message => {
 	if (message.content.startsWith(`${prefix}sustur`)) {
 
 		function sustur(name, time, type) {
-			let rawtime = parseInt(time);
+			let rawtime = parseFloat(time);
 
 			if (isNaN(rawtime)) {
 				message.channel.send("Sayı giriniz!");
