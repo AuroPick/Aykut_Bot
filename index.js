@@ -892,17 +892,30 @@ client.on("message", message => {
 
 			if (type.toLowerCase() === "dakika" || type.toLowerCase() === "saat" || type.toLowerCase() === "gün") {
 				let role = message.guild.roles.find(rol => rol.name.toLowerCase() === "sustur");
+				if (name.roles.find(r => r.name.toLowerCase() === "sustur")) {
+					message.channel.send("Bu kişi zaten susturulmuş!");
+					return;
+				}
 				if (!role) {
 					message.channel.send("\"sustur\" isimli rol yok!");
+					return;
 				}
 				let userroles = name.roles;
-				name.removeRoles(name.roles);
-				name.addRole(role);
+				
+				setTimeout(function () {
+					name.removeRoles(name.roles);
+				}, 500);
+				setTimeout(function () {
+					name.addRole(role);
+				}, 1000);
+				
 				message.channel.send(`<@${name.id}> başarıyla ${rawtime} ${type} susturuldu.`);
+				
 				setTimeout(function () {
 					name.removeRole(role);
 				}, time - 3);
 				setTimeout(function () {
+					name.removeRole(role);
 					name.addRoles(userroles);
 					message.channel.send(`<@${name.id}>'den susturma başarıyla geri alındı.`);
 				}, time);
