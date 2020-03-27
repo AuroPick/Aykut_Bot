@@ -958,7 +958,6 @@ client.on("message", message => {
 
 	if (message.content.toLowerCase().startsWith(`${prefix}corona`)) {
 		let args = message.content.split(" ").slice(1).join(" ");
-		console.log(args)
 		if (!args) {
 			const embed = new Discord.RichEmbed()
 				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}corona [ülke]`)
