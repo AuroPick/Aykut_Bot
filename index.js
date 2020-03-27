@@ -7,6 +7,7 @@ const {
 const {
 	RichEmbed
 } = require("discord.js");
+const corona = require("covid19-api");
 const ytdl = require("ytdl-core");
 const search = require("yt-search");
 const randbooru = require("megu-randbooru");
@@ -97,8 +98,9 @@ client.on("message", message => {
 			.addField(`${square}**Müzik**`, `\`${prefix}muzik\`\n Müzik komutlarını gösterir.`, true)
 			.addField(`${square}**Fotoğraf**`, `\`${prefix}foto anahtar kelime\`\n Anahtar kelimeyle ilgili fotoğraf çeker.`, true)
 			.addField(`${square}**Nhentai**`, `\`${prefix}nhentai\`\n Rastgele hentai fotoğrafı paylaşır.`)
-			.addField(`${square}**NSFW**`, `\`${prefix}nsfw [tür] [tag]\`\n kullanımını görmek için ${prefix}nsfw yazın.`, true)
+			.addField(`${square}**NSFW**`, `\`${prefix}nsfw [tür] [tag]\`\n Kullanımını görmek için ${prefix}nsfw yazın.`, true)
 			.addField(`${square}**Moderasyon**`, `\`${prefix}moderasyon\`\nModerasyon komutlarını gösterir.`, true)
+			.addField(`${square}**Corona**`,`\`${prefix}corona [ülke]\`\nÜlkelerin corona bilgisini gösterir.`)
 			.addField("\u200B", "**Evet şuan sadece bu kadar.**")
 			.setTimestamp()
 			.setFooter("Aykut Saki yapmış", client.user.avatarURL);
@@ -953,6 +955,57 @@ client.on("message", message => {
 		}
 
 	}
+
+	if (message.content.startsWith(`${prefix}corona`)) {
+		let args = message.content.split(" ").slice(1).join(" ");
+		console.log(args)
+		if (!args) {
+			const embed = new Discord.RichEmbed()
+				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}corona [ülke]`)
+				.setColor("#ff0000");
+			message.channel.send(embed);
+			return;
+		}
+
+		if (args.toLowerCase() === "america" || args.toLowerCase() === "amerika") {
+			args = "us";
+		}
+		
+		if (args.toLowerCase() === "england" || args.toLowerCase() === "ingiltere") {
+			args = "uk";
+		}
+
+		if (args.toLowerCase() === "south korea" || args.toLowerCase() === "korea") {
+			args = "south-korea";
+		}
+
+		if (args.toLowerCase() === "hong kong") {
+			args = "china-hong-kong-sar";
+		}
+
+		corona.getReportsByCountries(args).then(data => {
+			console.log(data);
+			const embed = new Discord.RichEmbed()
+				.setAuthor(client.user.username, client.user.avatarURL, "https://github.com/AuroPick")
+				.setTitle(`**${args.toUpperCase()}**`)
+				.setThumbnail(data[0][0].flag)
+				.addField("**Hasta**", data[0][0].cases, true)
+				.addField("**Ölüm**", data[0][0].deaths, true)
+				.addField("**İyileşen**", data[0][0].recovered, true)
+				.setTimestamp()
+				.setFooter(`${message.author.username} istedi`, message.author.avatarURL);
+			message.channel.send(embed);
+		}).catch(err => {
+			const embed = new Discord.RichEmbed()
+				.setDescription(`:x: **Yanlış kullanım** :x: \n \nBir hata yaptınız veya aradağınız ülkenin sayfası yok!`)
+				.setColor("#ff0000");
+			message.channel.send(embed);
+			return;
+		})
+		
+	}
+
+
 
 
 });
