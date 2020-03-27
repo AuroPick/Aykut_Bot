@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "covid19-api": "^1.1.0",
     "dabi-images": "^2.7.5",
     "discord.js": "^11.5.1",
     "megu-randbooru": "^1.0.11",
