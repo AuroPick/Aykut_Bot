@@ -956,7 +956,7 @@ client.on("message", message => {
 
 	}
 
-	if (message.content.startsWith(`${prefix}corona`)) {
+	if (message.content.toLowerCase().startsWith(`${prefix}corona`)) {
 		let args = message.content.split(" ").slice(1).join(" ");
 		console.log(args)
 		if (!args) {
