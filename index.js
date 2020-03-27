@@ -962,6 +962,7 @@ client.on("message", message => {
 		if (!args) {
 			const embed = new Discord.RichEmbed()
 				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}corona [ülke]`)
+				.addField("**Kaynak**", "https://www.worldometers.info/coronavirus/")
 				.setColor("#ff0000");
 			message.channel.send(embed);
 			return;
