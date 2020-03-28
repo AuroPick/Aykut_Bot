@@ -960,9 +960,33 @@ client.on("message", message => {
 		let args = message.content.split(" ").slice(1).join(" ");
 		if (!args) {
 			const embed = new Discord.RichEmbed()
-				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}corona [ülke]`)
-				.addField("**Kaynak**", "https://www.worldometers.info/coronavirus/")
-				.setColor("#ff0000");
+			.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}corona [ülke]\n\n**Kaynak** = https://www.worldometers.info/coronavirus/`)
+			.addField("**Top 8**", "\u200B")
+			.addField("Ülke", data[0][0].Country, true)
+			.addField("Hasta", data[0][0].Cases, true)
+			.addField("Ölüm", data[0][0].Deaths, true)
+			.addField("Ülke", data[0][1].Country, true)
+			.addField("Hasta", data[0][1].Cases, true)
+			.addField("Ölüm", data[0][1].Deaths, true)
+			.addField("Ülke", data[0][2].Country, true)
+			.addField("Hasta", data[0][2].Cases, true)
+			.addField("Ölüm", data[0][2].Deaths, true)
+			.addField("Ülke", data[0][3].Country, true)
+			.addField("Hasta", data[0][3].Cases, true)
+			.addField("Ölüm", data[0][3].Deaths, true)
+			.addField("Ülke", data[0][4].Country, true)
+			.addField("Hasta", data[0][4].Cases, true)
+			.addField("Ölüm", data[0][4].Deaths, true)
+			.addField("Ülke", data[0][5].Country, true)
+			.addField("Hasta", data[0][5].Cases, true)
+			.addField("Ölüm", data[0][5].Deaths, true)
+			.addField("Ülke", data[0][6].Country, true)
+			.addField("Hasta", data[0][6].Cases, true)
+			.addField("Ölüm", data[0][6].Deaths, true)
+			.addField("Ülke", data[0][7].Country, true)
+			.addField("Hasta", data[0][7].Cases, true)
+			.addField("Ölüm", data[0][7].Deaths, true)
+			.setColor("#ff0000");
 			message.channel.send(embed);
 			return;
 		}
