@@ -967,7 +967,7 @@ client.on("message", message => {
 			return;
 		}
 
-		if (args.toLowerCase() === "america" || args.toLowerCase() === "amerika") {
+		if (args.toLowerCase() === "america" || args.toLowerCase() === "amerika" || args.toLowerCase() === "usa") {
 			args = "us";
 		}
 		
