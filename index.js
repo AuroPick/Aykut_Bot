@@ -268,14 +268,14 @@ client.on("message", message => {
 							resp += `**[${parseInt(i) + 1}]: ** \`${videos[i].title}\`\n`;
 						}
 
-						resp += `\n**5 saniye içinde \`1 ile ${videos.length} arasında sayı seçiniz!\`**`;
+						resp += `\n**10 saniye içinde \`1 ile ${videos.length} arasında sayı seçiniz!\`**`;
 
 						message.channel.send(resp);
 
 						const filter = m => !isNaN(m.content) && m.content < videos.length + 1 && m.content > 0;
 
 						const collector = message.channel.createMessageCollector(filter, {
-							time: 5500
+							time: 10000
 						});
 						collector.videos = videos;
 						collector.once('collect', function (m) {
