@@ -54,7 +54,7 @@ client.on("guildMemberAdd", member => {
 	
 	let channel = client.channels.get(member.guild.systemChannelID || channelID);
 
-	const messages = [`Göklerden gelen bir ${member} var!`, `Bir gün sunucuya getirmediğim her bir kişi için bana küfredeceksiniz. Hoşgeldin ${member}!`, `Hey ${member} hemen kuralları oku!`, `Yeni bir fedai geldi ${member}!`]
+	const messages = [`Göklerden gelen bir ${member} var!`, `Bir gün sunucuya getirmediğim her bir kişi için bana küfredeceksiniz. Hoşgeldin ${member}!`, `Hey ${member} hemen kuralları oku!`, `Yeni bir fedai geldi ${member}!`, `Yer açın ${member} geldi!`]
 
 	channel.send(messages[Math.floor(Math.random() * messages.length)]);
 
