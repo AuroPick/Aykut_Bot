@@ -37,24 +37,12 @@ client.on("disconnect", () => {
 });
 
 client.on("guildMemberAdd", member => {
-	let channelID;
-	let channels = member.guild.channels;
-	if (!channels) {
-		return;
-	}
-	channelLoop:
 	
-	for (let c of channels) {
-		let channelType = c[1].type;
-		if (channelType === "text") {
-			channelID = c[0];
-			break channelLoop;
-		}
-	}
-	
-	let channel = client.channels.get(member.guild.systemChannelID || channelID);
+	const channel = member.guild.channels.filter(c => c.type === 'text').find(x => x.position == 0);
 
-	const messages = [`Göklerden gelen bir ${member} var!`, `Bir gün sunucuya getirmediğim her bir kişi için bana küfredeceksiniz. Hoşgeldin ${member}!`, `Hey ${member} hemen kuralları oku!`, `Yeni bir fedai geldi ${member}!`, `Yer açın ${member} geldi!`]
+	if (!channel) return;
+
+	const messages = [`Göklerden gelen bir ${member} var!`, `Bir gün sunucuya getirmediğim her bir kişi için bana küfredeceksiniz. Hoşgeldin ${member}!`, `Hey ${member} hemen kuralları oku!`, `Yeni bir fedai geldi ${member}!`, `Yer açın ${member} geldi!`];
 
 	channel.send(messages[Math.floor(Math.random() * messages.length)]);
 
