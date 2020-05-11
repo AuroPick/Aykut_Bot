@@ -271,7 +271,7 @@ client.on("message", message => {
 				message.channel.send(`:mag_right: **Aranıyor:** \`${args}\``).then(d_msg => {
 					d_msg.delete(500)
 				}, setTimeout(function () {
-					search(args.join(' '), function (err, res) {
+					search(args, function (err, res) {
 						if (err) return message.channel.send("**Hata oluştu!**");
 
 						let videos = res.videos.slice(0, 10);
