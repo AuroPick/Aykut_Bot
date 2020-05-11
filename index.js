@@ -267,7 +267,8 @@ client.on("message", message => {
 
 		if (message.member.voiceChannel) {
 			if (!validate) {
-				message.channel.send(`:mag_right: **Aranıyor:** \`${args[1]}\``).then(d_msg => {
+				const args = message.content.split(" ").slice(1).join(" ");
+				message.channel.send(`:mag_right: **Aranıyor:** \`${args}\``).then(d_msg => {
 					d_msg.delete(500)
 				}, setTimeout(function () {
 					search(args.join(' '), function (err, res) {
