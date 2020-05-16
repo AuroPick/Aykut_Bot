@@ -129,11 +129,11 @@ client.on("message", message => {
 			.setThumbnail(owner.avatarURL)
 			.setTitle("Komutlar")
 			.addBlankField()
-			.addField(`${square}**Oynat**`, `\`${prefix}oynat\` == Link varsa linki oynatır yoksa YouYube'da aratır.`)
-			.addField(`${square}**Atla**`, `\`${prefix}atla\` == Sıradaki şarkıya geçer.`)
-			.addField(`${square}**Durdur**`, `\`${prefix}durdur\` == Listeyi temizler ve odadan ayrılır.`)
-			.addField(`${square}**Bağlan**`, `\`${prefix}baglan\` == Odaya bağlanır.`)
-			.addField(`${square}**Ayrıl**`, `\`${prefix}ayril\` == Listeyi temizler ve odadan ayrılır`)
+			.addField(`${square}**Oynat**`, `\`${prefix}oynat\`\nLink varsa linki oynatır yoksa YouTube'da ilk sonucu oynatır.\n\`${prefix}oynat -x\`\nKelimeyi Youtube'da aratır birden fazla sonuç getirir.\n\`Örnek\`\n**${prefix}oynat -x** recep ivedik müzik`)
+			.addField(`${square}**Atla**`, `\`${prefix}atla\`\nSıradaki şarkıya geçer.`)
+			.addField(`${square}**Durdur**`, `\`${prefix}durdur\`\nListeyi temizler ve odadan ayrılır.`)
+			.addField(`${square}**Bağlan**`, `\`${prefix}baglan\`\nOdaya bağlanır.`)
+			.addField(`${square}**Ayrıl**`, `\`${prefix}ayril\`\nListeyi temizler ve odadan ayrılır`)
 			.setTimestamp()
 			.setFooter("Aykut Saki yapmış", client.user.avatarURL);
 		message.channel.send(embed);
@@ -150,7 +150,7 @@ client.on("message", message => {
 			.addField(`${square}**Ban**`, `\`${prefix}ban [üye] [sebep(isteğe bağlı)]\`\nEtiketlenen kişiyi banlar.`)
 			.addField(`${square}**Kanal Oluşturma**`, `\`${prefix}kanalolustur [kanal ismi]\`\nYazılan isimle text kanalı oluşturur.`)
 			.addField(`${square}**Kanal Silme**`, `\`${prefix}kanalsil\`\nMesajın yazıldığı kanal silinir.`)
-			.addField(`${square}**Susturma**`, `\`${prefix}sustur [üye] [süre] [süre tipi]\`\nÜyeyi susturur. "sustur" isimli rol oluşturulması zorunludur!`)
+			.addField(`${square}**Susturma**`, `\`${prefix}sustur [üye] [süre] [süre tipi]\`\nÜyeyi susturur. "everyone" rolünün mesaj gönderme yetkisinin olmaması lazım!`)
 			.setTimestamp()
 			.setFooter("Aykut Saki yapmış", client.user.avatarURL);
 		message.channel.send(embed);
@@ -265,56 +265,118 @@ client.on("message", message => {
 
 		let validate = ytdl.validateURL(args[1]);
 
+		if (args[1] === "-x") {
+			let validate_2 = ytdl.validateURL(args[2])
+			if (validate_2) {
+				const embed = new Discord.RichEmbed()
+					.setDescription(":x: **Yanlış kullanım** :x: \n \n Çoklu aramayı link ile kullanamazsın!")
+					.setColor("#ff0000");
+				message.channel.send(embed);
+				return;
+			}
+		}
+
 		if (message.member.voiceChannel) {
 			if (!validate) {
-				const args = message.content.split(" ").slice(1).join(" ");
-				message.channel.send(`:mag_right: **Aranıyor:** \`${args}\``).then(d_msg => {
-					d_msg.delete(500)
-				}, setTimeout(function () {
-					search(args, function (err, res) {
-						if (err) return message.channel.send("**Hata oluştu!**");
 
-						let videos = res.videos.slice(0, 10);
+				let args = message.content.slice(prefix.length).split(" ");
 
-						let resp = '';
-						for (var i in videos) {
-							resp += `**[${parseInt(i) + 1}]: ** \`${videos[i].title}\`\n`;
-						}
+				if (args[1] === "-x") {
+					const args = message.content.split(" ").slice(2).join(" ");
+					message.channel.send(`:mag_right: **Aranıyor** \`${args}\``).then(d_msg => {
+						d_msg.delete(500)
+					}, setTimeout(function () {
+						search(args, function (err, res) {
+							if (err) return message.channel.send("**Hata oluştu!**");
 
-						resp += `\n**10 saniye içinde \`1 ile ${videos.length} arasında sayı seçiniz!\`**`;
+							let videos = res.videos.slice(0, 10);
 
-						message.channel.send(resp);
+							let resp = '';
+							for (var i in videos) {
+								resp += `**[${parseInt(i) + 1}]: ** \`${videos[i].title}\`\n`;
+							}
 
-						const filter = m => !isNaN(m.content) && m.content < videos.length + 1 && m.content > 0;
+							resp += `\n**10 saniye içinde \`1 ile ${videos.length} arasında sayı seçiniz!\`**`;
 
-						const collector = message.channel.createMessageCollector(filter, {
-							time: 10000
-						});
-						collector.videos = videos;
-						collector.once('collect', function (m) {
-							if (!message.guild.voiceConnection) {
-								message.member.voiceChannel.join().then(function (connection) {
+							message.channel.send(resp);
+
+							const filter = m => !isNaN(m.content) && m.content < videos.length + 1 && m.content > 0;
+
+							const collector = message.channel.createMessageCollector(filter, {
+								time: 10000
+							});
+							collector.videos = videos;
+							collector.once('collect', function (m) {
+								if (!message.guild.voiceConnection) {
+									message.member.voiceChannel.join().then(function (connection) {
+										var videourl = videos[parseInt(m.content) - 1].url;
+										server.queue.push(videourl);
+										message.channel.send(`**:notes: Şimdi çalınıyor** \`${videos[parseInt(m.content) - 1].title}\``)
+										play(connection, videourl);
+									});
+									return;
+								} else {
 									var videourl = videos[parseInt(m.content) - 1].url;
 									server.queue.push(videourl);
+									message.channel.send(`**:eject: Sıraya eklendi** \`${videos[parseInt(m.content) - 1].title}\``)
+									return;
+								}
+							});
+						});
+					}, 1000));
+				} else {
+					args = message.content.split(" ").slice(1).join(" ");
+					message.channel.send(`:mag_right: **Aranıyor** \`${args}\``).then(d_msg => {
+						d_msg.delete(500)
+					}, setTimeout(function () {
+						search(args, function (err, res) {
+							if (err) return message.channel.send("**Hata oluştu!**");
+
+							let videos = res.videos;
+
+							var videourl = videos[0].url;
+
+							if (!message.guild.voiceConnection) {
+								message.member.voiceChannel.join().then(function (connection) {
+									server.queue.push(videourl);
+									message.channel.send(`**:notes: Şimdi çalınıyor** \`${videos[0].title}\``);
 									play(connection, videourl);
 								});
 								return;
 							} else {
-								var videourl = videos[parseInt(m.content) - 1].url;
 								server.queue.push(videourl);
+								message.channel.send(`**:eject: Sıraya eklendi** \`${videos[0].title}\``);
 								return;
 							}
-						});
-					});
-				}, 1000));
+						})
+					}, 1000));
+				}
 
 			} else {
 				if (!message.guild.voiceConnection) {
 					if (message.member.voiceChannel) {
 						message.member.voiceChannel.join().then(function (connection) {
-							server.queue.push(args[1]);
-							play(connection, message);
+							search(args[1], function (err, res) {
+								if (err) return message.channel.send("**Hata oluştu!**")
+
+								let videos = res.videos
+								
+								server.queue.push(args[1]);
+								message.channel.send(`**:notes: Şimdi çalınıyor** \`${videos[0].title}\``);
+								play(connection, message);
+							})
 						});
+					}
+				} else {
+					if (message.member.voiceChannel) {
+						search(args[1], function (err, res) {
+							if (err) return message.channel.send("**Hata oluştu!**")
+
+							let videos = res.videos
+							
+							server.queue.push(args[1]);
+							message.channel.send(`**:eject: Sıraya eklendi** \`${videos[0].title}\``)
+						})
 					}
 				}
 			}
