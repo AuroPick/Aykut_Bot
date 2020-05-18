@@ -98,7 +98,7 @@ client.on("message", message => {
 		const square = ":small_blue_diamond:";
 		const embed = new Discord.RichEmbed()
 			.setAuthor(client.user.username, client.user.avatarURL, "https://github.com/AuroPick")
-			.setDescription(`Bir gün herkes ${client.user.username} kullanacak!`)
+			.setDescription(`Bir gün herkes ${client.user.username} kullanacak!\n\n:ballot_box_with_check: GitHub https://github.com/AuroPick`)
 			.setThumbnail(owner.avatarURL)
 			.setTitle("Komutlar")
 			.addBlankField()
