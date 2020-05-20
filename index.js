@@ -1004,6 +1004,11 @@ client.on("message", message => {
 			return;
 		}
 
+		if (!message.member.highestRole.comparePositionTo(message.mentions.members.first().highestRole > 0)) {
+			message.channel.send("Kendinden yüksek rolde olan birini banlayamazsın!");
+			return;
+		}
+
 		const args = message.content.slice(prefix.length).split(" ");
 		const user = message.mentions.users.first();
 
@@ -1011,7 +1016,7 @@ client.on("message", message => {
 			const ownerid = '231457748422885378';
 			const owner = client.users.get(ownerid);
 			const embed = new Discord.RichEmbed()
-				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}sustur [üye] [süre] [süre tipi]\n\n**Sustur**\n${prefix}sustur @${owner.username} 7 gün`)
+				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}sustur [üye] [süre] [süre tipi]\n\`**Süre Tipleri:**\` Dakika, Saat, Gün\n\n**Sustur**\n${prefix}sustur @${owner.username} 7 gün`)
 				.setColor("#ff0000")
 				.setTimestamp();
 			message.channel.send(embed);
