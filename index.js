@@ -1005,7 +1005,7 @@ client.on("message", message => {
 		}
 
 		if (!message.member.highestRole.comparePositionTo(message.mentions.members.first().highestRole > 0)) {
-			message.channel.send("Kendinden yüksek rolde olan birini banlayamazsın!");
+			message.channel.send("Kendinden yüksek rolde olan birini susturamazsın!");
 			return;
 		}
 
