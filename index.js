@@ -170,6 +170,7 @@ client.on("message", message => {
       message.content.startsWith("!p") ||
       message.content.startsWith("!loop") ||
       message.content.startsWith("!s") ||
+	  message.content.startsWith("!fs") ||
       message.author.id == 235088799074484224 ||
       message.content.startsWith("!leave") ||
       message.content.startsWith(";;") ||
