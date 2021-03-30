@@ -10,10 +10,8 @@ const {
 const corona = require("covid19-api");
 const ytdl = require("ytdl-core");
 const search = require("yt-search");
-const randbooru = require("megu-randbooru");
 const nhentai = require("nhentai-api-js");
 const client = new Discord.Client();
-const bg = new randbooru.BooruGrabber("sfw");
 const DabiImages = require("dabi-images");
 const DabiClient = new DabiImages.Client();
 const nhentaiapi = new nhentai();
@@ -108,7 +106,6 @@ client.on("message", message => {
 			.addField(`${square}**Ping**`, black + prefix + "ping`\n Botun pingini gösterir.", true)
 			.addField(`${square}**Emoji**`, black + prefix + `emoji${black}\n Tema seçilmezse random emoji oluşturur. \n ${black + prefix}emoji tema${black}\n Temaları listeler. \n ${black}Örnek${black}\n **${prefix}emoji =** Random emoji: ᕦ( ͡° ͜ʖ ͡°)ᕤ \n ${black}Örnek${black}\n **${prefix}emoji pedobear =** Random pedobear emoji: ᶘ ͡°ᴥ ͡°ᶅ `)
 			.addField(`${square}**Müzik**`, `\`${prefix}muzik\`\n Müzik komutlarını gösterir.`, true)
-			.addField(`${square}**Fotoğraf**`, `\`${prefix}foto anahtar kelime\`\n Anahtar kelimeyle ilgili fotoğraf çeker.`, true)
 			.addField(`${square}**Nhentai**`, `\`${prefix}nhentai\`\n Rastgele hentai fotoğrafı paylaşır.`)
 			.addField(`${square}**NSFW**`, `\`${prefix}nsfw [tür] [tag]\`\n Kullanımını görmek için ${prefix}nsfw yazın.`, true)
 			.addField(`${square}**Moderasyon**`, `\`${prefix}moderasyon\`\nModerasyon komutlarını gösterir.`, true)
@@ -492,41 +489,6 @@ client.on("message", message => {
 			message.channel.send("**Bu komutu kullanabilmek için ses kanalında olman lazım!**");
 		}
 
-	}
-
-	if (message.content.startsWith(`${prefix}foto`)) {
-		const args = message.content.slice(prefix.length).split(" ");
-
-		if (!args[1]) {
-			const embed = new Discord.RichEmbed()
-				.setDescription(`:x: **Yanlış kullanım** :x: \n \n :ballot_box_with_check: ${prefix}foto anahtar kelime`)
-				.setColor("#ff0000");
-			message.channel.send(embed);
-			return;
-		}
-
-		bg.randomImage(args[1]).then(data => {
-			console.log(data);
-			const embed = new Discord.RichEmbed()
-				.setAuthor("Safebooru", "https://safebooru.org/images/safechibi.png", data.source_url)
-				.setImage(data.image_url)
-				.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
-				.setTimestamp();
-			message.channel.send(embed);
-		}).catch(err => {
-			console.log(err);
-			const embed = new Discord.RichEmbed()
-				.setAuthor(client.user.username, client.user.avatarURL, "https://github.com/AuroPick")
-				.setTitle("**Bir hata oluştu!**")
-				.setDescription("**Bir hata oluştu hatanın sebebi aşağıdakilerden biri olabilir**")
-				.addField("\u200B", "\`1 - Aradığın kelimeyle ilgili bir sonuç olmayabilir\`")
-				.addBlankField()
-				.addField("\u200B", "\`2 - Kelimeyi yanlış yazmış olabilirsin Safeebooru'da arama yaparken araya boşluk koyulmaz işte nasıl arama yapılacağıyla ilgili bir örnek:\`")
-				.setImage("https://i.ibb.co/Hqp0jT4/Safebooru-ornek.png")
-				.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
-				.setTimestamp();
-			message.channel.send(embed);
-		})
 	}
 
 	if (message.content.toLowerCase().startsWith(`${prefix}nsfw`)) {
