@@ -2,6 +2,9 @@
   "name": "discord-bot",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "14.x"
+  },
   "main": "index.js",
   "dependencies": {
     "covid19-api": "^1.1.0",
