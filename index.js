@@ -164,7 +164,7 @@ client.on("message", message => {
 
 	if (
     message.channel.id == 45514584598629583 ||
-    message.channel.id == 766224064259031110
+    message.channel.id == 766224895007784960
   ) {
     if (
       message.content.startsWith("!p") ||
