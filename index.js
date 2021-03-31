@@ -164,13 +164,13 @@ client.on("message", message => {
 
 	if (
     message.channel.id == 45514584598629583 ||
-    message.channel.id == 766224895007784960
+    message.guild.id == 766224064259031110
   ) {
     if (
       message.content.startsWith("!p") ||
       message.content.startsWith("!loop") ||
       message.content.startsWith("!s") ||
-	  message.content.startsWith("!fs") ||
+      message.content.startsWith("!fs") ||
       message.author.id == 235088799074484224 ||
       message.content.startsWith("!leave") ||
       message.content.startsWith(";;") ||
