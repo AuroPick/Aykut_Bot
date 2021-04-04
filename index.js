@@ -167,13 +167,13 @@ client.on("message", message => {
     message.guild.id == 766224064259031110
   ) {
     if (
-      message.content.startsWith("!p") ||
-      message.content.startsWith("!loop") ||
-      message.content.startsWith("!s") ||
-      message.content.startsWith("!fs") ||
+      message.content.toLowerCase().startsWith("!p") ||
+      message.content.toLowerCase().startsWith("!loop") ||
+      message.content.toLowerCase().startsWith("!s") ||
+      message.content.toLowerCase().startsWith("!fs") ||
       message.author.id == 235088799074484224 ||
-      message.content.startsWith("!leave") ||
-      message.content.startsWith(";;") ||
+      message.content.toLowerCase().startsWith("!leave") ||
+      message.content.toLowerCase().startsWith(";;") ||
       message.author.id == 184405311681986560
     ) {
       message.delete(1000);
