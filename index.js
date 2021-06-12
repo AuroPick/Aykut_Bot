@@ -10,7 +10,7 @@ const {
 const corona = require("covid19-api");
 const ytdl = require("ytdl-core");
 const search = require("yt-search");
-const nhentai = require("nhentai-api-js");
+const nhentai = require("nana-api");
 const client = new Discord.Client();
 const DabiImages = require("dabi-images");
 const DabiClient = new DabiImages.Client();
