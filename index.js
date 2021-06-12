@@ -789,29 +789,35 @@ client.on("message", message => {
 
 	if (message.content === `${prefix}nhentai`) {
 		nhentaiapi.random().then(gallery => {
-			console.log(gallery.id);
-			nhentaiapi.g(gallery.id).then(gallery => {
-				const nhentaifoto = gallery.getPages()[Math.floor(Math.random() * gallery.getPages().length)];
+			nhentaiapi.g(gallery.id).then((gallery) => {
+				coverType = 
+					gallery.images.cover.t === "j"
+            		? "jpg"
+            		: gallery.images.cover.t === "p"
+            		? "png"
+            		: gallery.images.cover.t === "g"
+            		? "gif"
+            		: "";
 				let tagyok = true;
-				let nhentaitags = [];
-				for (var i in gallery.tags) {
-					if (gallery.tags[i].type == "tag") {
-						nhentaitags.push(gallery.tags[i].name);
-						tagyok = false;
-					}
-				}
-				if (tagyok) {
-					nhentaitags.push("Tag yok");
-				}
-				const nhentaipage = gallery.num_pages;
-				const embed = new Discord.RichEmbed()
-					.setAuthor(gallery.title.english, "https://i.ibb.co/d5jFPHg/nhentailogo.png", `https://nhentai.net/g/${gallery.id}`)
-					.setImage(nhentaifoto)
-					.addField("**Tags**", nhentaitags, true)
-					.addField("**Sayfa**", `${nhentaipage} sayfa`, true)
-					.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
-					.setTimestamp();
-				message.channel.send(embed);
+          		let nhentaitags = [];
+          		for (var i in gallery.tags) {
+            		if (gallery.tags[i].type == "tag") {
+              			nhentaitags.push(gallery.tags[i].name);
+              			tagyok = false;
+           			}
+          		}
+          		if (tagyok) {
+            		nhentaitags.push("Tag yok");
+          		}
+          		const nhentaipage = gallery.num_pages;
+          		const embed = new Discord.RichEmbed()
+            		.setAuthor(gallery.title.english, "https://i.ibb.co/d5jFPHg/nhentailogo.png", `https://nhentai.net/g/${gallery.id}`)
+            		.setImage(`https://t.nhentai.net/galleries/${gallery.media_id}/cover.${coverType}`)
+            		.addField("**Tags**", nhentaitags, true)
+            		.addField("**Sayfa**", `${nhentaipage} sayfa`, true)
+            		.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
+            		.setTimestamp();
+          		message.channel.send(embed); 	
 			})
 		})
 	}
