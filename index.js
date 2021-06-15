@@ -787,40 +787,87 @@ client.on("message", message => {
 
 	}
 
-	if (message.content === `${prefix}nhentai`) {
-		nhentaiapi.random().then(gallery => {
-			nhentaiapi.g(gallery.id).then((gallery) => {
-				coverType = 
-					gallery.images.cover.t === "j"
+	if (message.content.startsWith(`${prefix}nhentai`)) {
+    	const args = message.content.slice(prefix.length).split(" ");
+
+		if (args[1]) {
+			return nhentaiapi.tag(args[1]).then(res => {
+				
+				const randomNumber = Math.floor(Math.random() * res.results.length);
+
+				nhentaiapi.g(res.results[randomNumber].id).then((gallery) => {
+        			coverType =
+          				gallery.images.cover.t === "j"
+            			? "jpg"
+            			: gallery.images.cover.t === "p"
+            			? "png"
+            			: gallery.images.cover.t === "g"
+            			? "gif"
+            			: "";
+        			let tagyok = true;
+        			let nhentaitags = [];
+        			for (var i in gallery.tags) {
+          				if (gallery.tags[i].type == "tag") {
+            				nhentaitags.push(gallery.tags[i].name);
+            				tagyok = false;
+          				}
+        			}
+        			if (tagyok) {
+          				nhentaitags.push("Tag yok");
+        			}
+        			const nhentaipage = gallery.num_pages;
+        			const embed = new Discord.RichEmbed()
+          				.setAuthor(gallery.title.english, "https://i.ibb.co/d5jFPHg/nhentailogo.png", `https://nhentai.net/g/${gallery.id}`)
+          				.setImage(`https://t.nhentai.net/galleries/${gallery.media_id}/cover.${coverType}`)
+						.addField("**Oku**", `[nhentai](https://nhentai.net/g/${gallery.id})`)
+          				.addField("**Tags**", nhentaitags, true)
+          				.addField("**Sayfa**", `${nhentaipage} sayfa`, true)
+          				.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
+          				.setTimestamp();
+        			message.channel.send(embed);
+      			});
+			}).catch(err => {
+				const embed = new Discord.RichEmbed()
+          			.setDescription(`:x: **Bir Hata Oluştu** :x: \n \nTag arıyorsan aradığın tag olmayabilir!`)
+          			.setColor("#ff0000");
+        		message.channel.send(embed);
+			})
+		}
+
+    	nhentaiapi.random().then((gallery) => {
+      		nhentaiapi.g(gallery.id).then((gallery) => {
+        		coverType =
+          			gallery.images.cover.t === "j"
             		? "jpg"
             		: gallery.images.cover.t === "p"
             		? "png"
             		: gallery.images.cover.t === "g"
             		? "gif"
             		: "";
-				let tagyok = true;
-          		let nhentaitags = [];
-          		for (var i in gallery.tags) {
-            		if (gallery.tags[i].type == "tag") {
-              			nhentaitags.push(gallery.tags[i].name);
-              			tagyok = false;
-           			}
-          		}
-          		if (tagyok) {
-            		nhentaitags.push("Tag yok");
-          		}
-          		const nhentaipage = gallery.num_pages;
-          		const embed = new Discord.RichEmbed()
-            		.setAuthor(gallery.title.english, "https://i.ibb.co/d5jFPHg/nhentailogo.png", `https://nhentai.net/g/${gallery.id}`)
-            		.setImage(`https://t.nhentai.net/galleries/${gallery.media_id}/cover.${coverType}`)
-            		.addField("**Tags**", nhentaitags, true)
-            		.addField("**Sayfa**", `${nhentaipage} sayfa`, true)
-            		.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
-            		.setTimestamp();
-          		message.channel.send(embed); 	
-			})
-		})
-	}
+        		let tagyok = true;
+        		let nhentaitags = [];
+        		for (var i in gallery.tags) {
+          			if (gallery.tags[i].type == "tag") {
+            			nhentaitags.push(gallery.tags[i].name);
+            			tagyok = false;
+          			}
+        		}
+        		if (tagyok) {
+          			nhentaitags.push("Tag yok");
+        		}
+        		const nhentaipage = gallery.num_pages;
+        		const embed = new Discord.RichEmbed()
+          			.setAuthor(gallery.title.english, "https://i.ibb.co/d5jFPHg/nhentailogo.png", `https://nhentai.net/g/${gallery.id}`)
+          			.setImage(`https://t.nhentai.net/galleries/${gallery.media_id}/cover.${coverType}`)
+					.addField("**Oku**", `[nhentai](https://nhentai.net/g/${gallery.id})`)
+          			.addField("**Tags**", nhentaitags, true)
+          			.addField("**Sayfa**", `${nhentaipage} sayfa`, true)
+          			.setFooter(`${message.author.username} istedi`, message.author.avatarURL)
+          			.setTimestamp();
+        		message.channel.send(embed);
+      		});
+    	});
+  	}
 
 	if (message.content.startsWith(`${prefix}kanalolustur`)) {
 		const args = message.content.slice(prefix.length).split(" ");
